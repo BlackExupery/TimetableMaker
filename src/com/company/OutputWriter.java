@@ -35,11 +35,13 @@ public class OutputWriter {
     private void s_index_to_id(){
         for(Long s : all_students.keySet()){
            int index = all_students.get(s);
+            Map<Integer,Integer> g_map = new HashMap<Integer,Integer>();
            for(Integer g : s_in_g.get(index).keySet()){
-               Map<Integer,Integer> g_map = new HashMap<Integer,Integer>();
                g_map.put(g,1);
-               s_in_g_out.put(s,g_map);
            }
+            s_in_g_out.put(s,g_map);
+            g_map = new HashMap<Integer,Integer>();
+
         }
     }
 
@@ -72,6 +74,9 @@ public class OutputWriter {
        JSONArray s_in_g_list = new JSONArray();
        JSONArray g_of_f_list = new JSONArray();
        JSONArray g_in_t_list = new JSONArray();
+       s_index_to_id();
+       f_index_to_id();
+       t_index_to_id();
 
        for(Long s : s_in_g_out.keySet()){
            for(Integer g:s_in_g_out.get(s).keySet()){
@@ -85,21 +90,22 @@ public class OutputWriter {
        for(Integer g : g_of_f_out.keySet()){
            JSONObject obj = new JSONObject();
            obj.put("g_id", new Long(g));
-           obj.put("f_id", new String(g_in_t_out.get(g)));
+           obj.put("f_id", new String(g_of_f_out.get(g)));
            g_of_f_list.add(obj);
        }
 
        for(Integer g : g_in_t_out.keySet()){
            JSONObject obj = new JSONObject();
            obj.put("g_id",new Long(g));
-           obj.put("t_id",new String(g_in_t_out.get(g)));
+           obj.put("t_id",g_in_t_out.get(g));
+           g_in_t_list.add(obj);
        }
 
        root.put("s_in_g",s_in_g_list);
        root.put("g_of_sbj",g_of_f_list);
        root.put("g_in_t",g_in_t_list);
 
-        try (FileWriter file = new FileWriter("f:\\test.json")) {
+        try (FileWriter file = new FileWriter("C:/Users/Tu/Desktop/tt_project/tt_output.json")) {
 
             file.write(root.toJSONString());
             file.flush();
