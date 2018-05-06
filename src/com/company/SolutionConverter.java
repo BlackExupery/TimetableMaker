@@ -10,7 +10,6 @@ import java.util.Map;
 
 public class SolutionConverter {
 
-
     private Map<Integer, Map<Integer,Map<Integer,Integer>>> s_in_g_of_f = new HashMap<Integer, Map<Integer,Map<Integer,Integer>>>();
     private Map<Integer,Map<Integer,Integer>> s_in_g = new HashMap<Integer,Map<Integer,Integer>>();
     private Map<Integer,Map<Integer,Integer>> s_has_f = new HashMap<Integer,Map<Integer,Integer>>();
@@ -87,11 +86,18 @@ public class SolutionConverter {
         for(int i=0; i< solution_string.length;i++){
             writeSolutionInMap(solution_string[i]);
         }
+
+
+
     }
 
-    public SolutionConverter(String s){
+    public SolutionConverter(String s, int[]g_of_f_a){
         for(String solution : s.split(" ")){
             writeSolutionInMap(solution);
+        }
+
+        for(int i=0; i<g_of_f_a.length;i++){
+            this.g_of_f.put(i,g_of_f_a[i]);
         }
 
         System.out.println("sgf: "+s_in_g_of_f.toString());
@@ -102,6 +108,15 @@ public class SolutionConverter {
         System.out.println("gt: "+g_in_t.toString());
     }
 
+    public Map<Integer, Map<Integer, Integer>> get_s_in_g() {
+        return this.s_in_g;
+    }
 
+    public Map<Integer, Integer> get_g_in_t() {
+        return this.g_in_t;
+    }
 
+    public Map<Integer, Integer> get_g_of_f() {
+        return this.g_of_f;
+    }
 }
