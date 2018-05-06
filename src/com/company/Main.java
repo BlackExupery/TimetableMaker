@@ -14,39 +14,10 @@ import java.util.Scanner;
 
 public class Main {
 
-
-
-    static String s = "%s_in_g[0][25]=1 %s_in_g[2][3]=0 %s_in_g_of_f[1][2][3]=1 %s_has_f[1][2]=0 %s_has_f[1][1]=1 %g_of_f[1]=4 %g_in_t[0]=0 %s_in_g_in_t[2][2][2]=1";
-
-
-    public static List<Integer> getValues(String input) {
-        List<Integer> values = new LinkedList<Integer>();
-
-        for (int i = 0; i < input.length(); i++) {
-            char c = input.charAt(i);
-            if (c > 47 && c < 58) {
-                int index = i;
-                StringBuilder sb = new StringBuilder(input.length());
-                while (index<input.length()&& input.charAt(index)> 47 && input.charAt(index) < 58) {
-                    sb.append(input.charAt(index));
-                    index++;
-                }
-                i = index;
-                values.add(Integer.parseInt(sb.toString()));
-            }
-        }
-        return values;
-    }
-
-
-
-
-
-
-
     public static void main(String[] args) {
        // SolutionConverter sc = new SolutionConverter(s);
-        firstUsefulModel();
+
+         firstUsefulModel();
           /* int STUDENTS = 40;
         int GROUPS = 24;
         int TIMESLOTS = 18;
@@ -55,10 +26,7 @@ public class Main {
         int MIN_CAP = 0;*/
 
 
-       /*
-       *
-       *
-       * int [][] s_rejects_t = {
+       int [][] s_rejects_t = {
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
@@ -68,7 +36,7 @@ public class Main {
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0}
         };
-
+/*
         int [][] s_has_f = {
                 {0,1,1},{1,1,1},{0,1,1},{0,0,1},{0,0,1},
                 {1,1,1},{1,1,1},{1,1,1},{1,1,1},{1,0,1},
@@ -95,12 +63,25 @@ public class Main {
 
     public static void firstUsefulModel(){
         Model model = new Model("usefulmodel");
-        int STUDENTS = 20;
+
+        InputReader ir = new InputReader("C:/Users/Tu/Desktop/tt_project/tt_input2.json");
+
+
+       /* int STUDENTS = 20;
         int GROUPS = 9;
         int TIMESLOTS = 8;
         int SUBJECTS = 3;
         int MAX_CAP = 11;
+        int MIN_CAP = 0;*/
+
+        int STUDENTS = ir.getAll_students().size();
+        int GROUPS = 9;
+        int TIMESLOTS = ir.getAll_timeslots().size();
+        int SUBJECTS = ir.getAll_subjects().size();
+        int MAX_CAP = 11;
         int MIN_CAP = 0;
+
+
 
        /* int STUDENTS = 40;
         int GROUPS = 24;
@@ -118,17 +99,19 @@ public class Main {
         IntVar[][] _s_has_f = new IntVar[STUDENTS][SUBJECTS];
         IntVar [] _g_of_f = new IntVar[GROUPS];
 
-        int [][] s_rejects_t = {
+      /* int [][] s_rejects_t = {
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0}
         };
-
         int [][] s_has_f = {{1,0,1},{1,1,1},{0,1,1},{0,0,1},{0,0,1},
                 {1,1,1},{1,1,1},{1,1,1},{1,1,1},{1,0,1},
                 {1,1,1},{1,1,1},{1,0,0},{0,1,1},{1,1,1},
-                {1,1,1},{1,1,1},{1,0,1},{1,1,1},{0,0,1}};
+                {1,1,1},{1,1,1},{1,0,1},{1,1,1},{0,0,1}};*/
+
+       int[][]s_rejects_t = ir.get_s_rejects_t();
+       int[][] s_has_f = ir.get_s_has_f();
         //int [][] s_has_f = {{1,1,1},{1,1,1},{0,1,1},{0,0,1}}; 47
 
         int [] g_of_f = {0,1,2,0,1,2,0,1,2};
@@ -294,8 +277,8 @@ public class Main {
         }
 
         // wenn Student einen Timeslot als nicht möglich markeirt hat, befindet er sich in keiner Gruppe in diesem Timeslot
-        for(int s =0; s<STUDENTS;s++){
-            for(int g=0; g<GROUPS;g++){
+                for(int s =0; s<STUDENTS;s++){
+                    for(int g=0; g<GROUPS;g++){
                 for(int t=0; t<TIMESLOTS;t++){
                     model.ifThen(model.and(model.arithm(s_rej_t[s][t],"=",1),model.arithm(g_in_t[g],"=",t)),
                             model.arithm(s_in_g[s][g],"=",0));
@@ -310,8 +293,10 @@ public class Main {
             output.print_schedule("%s_in_g_of_f[",5);
             output.print_schedule("%s_in_g[",5);
             output.print_schedule("%g_in_t[",TIMESLOTS);
-            output.print_schedule("%s_in_g_in_t[",TIMESLOTS);
-            SolutionConverter sc = new SolutionConverter(solution_s);
+            output.print_schedule("%g_of_f[",TIMESLOTS);
+            SolutionConverter sc = new SolutionConverter(solution_s,g_of_f);
+            OutputWriter ow = new OutputWriter(sc,ir);
+            ow.writeInJSON();
         }
         else {
             System.out.println("No Solution found.");
