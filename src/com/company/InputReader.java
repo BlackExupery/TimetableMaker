@@ -19,7 +19,6 @@ public class InputReader {
     private int [][] s_rejects_t;
     private JSONParser parser;
 
-
     private void fill_s_has_f(JSONObject jObject){
         s_has_f = new int[all_students.size()][all_subjects.size()];
         //first fill array with 0's
@@ -124,28 +123,30 @@ public class InputReader {
 
     }
 
+    public Map<Long, Integer> getAll_students() {
+        return all_students;
+    }
+
+    public Map<String, Integer> getAll_subjects() {
+        return all_subjects;
+    }
+
+    public Map<String, Integer> getAll_timeslots() {
+        return all_timeslots;
+    }
+
+    public int[][] get_s_has_f(){
+        return this.s_has_f;
+    }
+
+    public int[][] get_s_rejects_t(){
+        return this.s_rejects_t;
+    }
+
     public void printContent(){
-		/*System.out.println(all_students);
-		System.out.println(all_subjects);
-		System.out.println(all_timeslots);
-		System.out.println(all_subjects.size());*/
-        String output = "";
-
-		/*for(int i=0;i<s_has_f.length;i++){
-			for(int j=0; j<s_has_f[0].length;j++){
-				output+=s_has_f[i][j] +" ";
-			}
-			output+="\n";
-		}
-		System.out.println(output);*/
-
-        for(int i=0; i<s_rejects_t.length;i++){
-            for(int j=0;j<s_rejects_t[0].length;j++){
-                output+= s_rejects_t[i][j] + " ";
-            }
-            output+="\n";
-        }
-        System.out.println(output);
+		System.out.println(all_students.size());
+		System.out.println(all_subjects.size());
+		System.out.println(all_timeslots.size());
     }
 
 
