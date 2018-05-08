@@ -69,7 +69,7 @@ public class OutputWriter {
     }
 
 
-    public void writeInJSON(){
+    public void writeInJSON(String path){
        JSONObject root = new JSONObject();
        JSONArray s_in_g_list = new JSONArray();
        JSONArray g_of_f_list = new JSONArray();
@@ -105,7 +105,7 @@ public class OutputWriter {
        root.put("g_of_sbj",g_of_f_list);
        root.put("g_in_t",g_in_t_list);
 
-        try (FileWriter file = new FileWriter("C:/Users/Tu/Desktop/tt_project/tt_output.json")) {
+        try (FileWriter file = new FileWriter(path)) {
 
             file.write(root.toJSONString());
             file.flush();
