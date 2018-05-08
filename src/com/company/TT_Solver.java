@@ -24,6 +24,9 @@ public class TT_Solver {
         int MAX_CAP = 11;
         int MIN_CAP = 0;
 
+        int[] f_min_cap = {0,0,0};
+        int[] f_max_cap = {11,11,11};
+
         IntVar[][][] s_in_g_of_f = new IntVar[STUDENTS][GROUPS][SUBJECTS];
         IntVar[][] s_in_g = new IntVar[STUDENTS][GROUPS];
         //IntVar[][] s_in_t = new IntVar[STUDENTS][TIMESLOTS];
@@ -32,6 +35,8 @@ public class TT_Solver {
         IntVar[][] s_rej_t = new IntVar[STUDENTS][TIMESLOTS];
         IntVar[][] _s_has_f = new IntVar[STUDENTS][SUBJECTS];
         IntVar[] _g_of_f = new IntVar[GROUPS];
+        IntVar[] _f_min_cap = new IntVar[SUBJECTS];
+        IntVar[] _f_max_cap = new IntVar[SUBJECTS];
 
         int[][] s_rejects_t = this.input.get_s_rejects_t();
         int[][] s_has_f = this.input.get_s_has_f();
@@ -70,8 +75,13 @@ public class TT_Solver {
             }
         }
 
+        for (int i=0; i<SUBJECTS;i++){
+            _f_min_cap[i] = model.intVar(f_min_cap[i]);
+            _f_max_cap[i] = model.intVar(f_max_cap[i]);
+        }
+
         //CONSTRAINTS!
-        // wenn student einem fach zugeordnet ist, dann befindet er sich in genau einer der Gruppen
+        // a) wenn student einem fach zugeordnet ist, dann befindet er sich in genau einer der Gruppen
         // die diesem Fach zugeordnet sind
         for (int s = 0; s < STUDENTS; s++) {
             for (int g = 0; g < GROUPS; g++) {
@@ -86,7 +96,7 @@ public class TT_Solver {
             }
         }
 
-        //Wenn Student sich in einer Gruppe befindet und diese Gruppe auch dem entsprechenden Fach zugeordnet ist,
+        //b) Wenn Student sich in einer Gruppe befindet und diese Gruppe auch dem entsprechenden Fach zugeordnet ist,
         //dann befindet sich der Student s in der Gruppe g, welcher dem Fach f zugeordnet ist. Ansonsten nicht!
         //(Denn jede Gruppe ist nur einem Fach zugeordnet, deshalb kann der Student keiner Gruppe zugeordnet sein,
         //die einem anderen Fach zugeordnet ist!
@@ -100,7 +110,7 @@ public class TT_Solver {
             }
         }
 
-        //Wenn sich ein Student in einer Gruppe befindet, die in einem Fachzugeordnet ist, dann befindet
+        //c) Wenn sich ein Student in einer Gruppe befindet, die in einem Fachzugeordnet ist, dann befindet
         // sie sich der Student auch in der Gruppe. (Beziehung zwischen s_in_g_of_f und s_in_g festlegen,
         // damit s_in_g_of_f nur dann zutrifft, wenn auch s_in_g zutrifft und umgekehrt
         for (int s = 0; s < STUDENTS; s++) {
@@ -112,7 +122,7 @@ public class TT_Solver {
             }
         }
 
-        //Ein Student darf nur in einer Gruppe je Fach sich befinden!
+        //d) Ein Student darf nur in einer Gruppe je Fach sich befinden!
         for (int s = 0; s < STUDENTS; s++) {
             for (int f = 0; f < SUBJECTS; f++) {
                 IntVar[] abs = new IntVar[GROUPS];
@@ -125,8 +135,8 @@ public class TT_Solver {
             }
         }
 
-        //gruppenkapazitäten einhalten!
-        for (int s = 0; s < STUDENTS; s++) {
+        //e) gruppenkapazitäten einhalten!
+       /* for (int s = 0; s < STUDENTS; s++) {
             for (int g = 0; g < GROUPS; g++) {
                 IntVar[] abs = new IntVar[STUDENTS];
                 for (int i = 0; i < STUDENTS; i++) {
@@ -135,9 +145,27 @@ public class TT_Solver {
                 model.sum(abs, "<=", MAX_CAP).post();
                 model.sum(abs, ">=", MIN_CAP).post();
             }
+        }*/
+
+        //e) gruppenkapazitäten je Fach einhalten!
+        for(int s=0; s<STUDENTS;s++){
+            for(int g=0; g<GROUPS;g++){
+                IntVar[] abs = new IntVar[STUDENTS];
+                for (int i = 0; i < STUDENTS; i++) {
+                    abs[i] = s_in_g[i][g];
+                }
+                for(int f=0; f<SUBJECTS;f++){
+                    model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(_g_of_f[g],"=",f)),
+                           model.sum(abs,"<=",_f_max_cap[f]) );
+                    model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(_g_of_f[g],"=",f)),
+                            model.sum(abs,">=",_f_min_cap[f]) );
+                }
+            }
+
         }
 
-        //wenn s_in_g dann auch s_in_g_in_t unter maximal einem timeslot
+
+        //f) wenn s_in_g dann auch s_in_g_in_t unter maximal einem timeslot
         for (int s = 0; s < STUDENTS; s++) {
             for (int g = 0; g < GROUPS; g++) {
                 IntVar[] abs = new IntVar[TIMESLOTS];
@@ -154,7 +182,7 @@ public class TT_Solver {
             }
         }
 
-        // wenn Student einen Timeslot als nicht möglich markeirt hat, befindet er sich in keiner Gruppe in diesem Timeslot
+        //g) wenn Student einen Timeslot als nicht möglich markeirt hat, befindet er sich in keiner Gruppe in diesem Timeslot
         for (int s = 0; s < STUDENTS; s++) {
             for (int g = 0; g < GROUPS; g++) {
                 for (int t = 0; t < TIMESLOTS; t++) {
