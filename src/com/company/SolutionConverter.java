@@ -81,23 +81,24 @@ public class SolutionConverter {
 
 
 
-    public SolutionConverter(Solution s){
+    public SolutionConverter(Solution s, int[]_g_of_f){
         String [] solution_string = s.toString().split(" ");
         for(int i=0; i< solution_string.length;i++){
             writeSolutionInMap(solution_string[i]);
         }
 
-
-
+        for(int i=0; i<_g_of_f.length;i++){
+            this.g_of_f.put(i,_g_of_f[i]);
+        }
     }
 
-    public SolutionConverter(String s, int[]g_of_f_a){
+    public SolutionConverter(String s, int[]_g_of_f){
         for(String solution : s.split(" ")){
             writeSolutionInMap(solution);
         }
 
-        for(int i=0; i<g_of_f_a.length;i++){
-            this.g_of_f.put(i,g_of_f_a[i]);
+        for(int i=0; i<_g_of_f.length;i++){
+            this.g_of_f.put(i,_g_of_f[i]);
         }
 
         System.out.println("sgf: "+s_in_g_of_f.toString());
