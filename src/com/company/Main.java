@@ -17,7 +17,8 @@ public class Main {
     public static void main(String[] args) {
        // SolutionConverter sc = new SolutionConverter(s);
 
-         firstUsefulModel();
+        //firstUsefulModel();
+         capsulatedModel();
           /* int STUDENTS = 40;
         int GROUPS = 24;
         int TIMESLOTS = 18;
@@ -26,7 +27,7 @@ public class Main {
         int MIN_CAP = 0;*/
 
 
-       int [][] s_rejects_t = {
+      /* int [][] s_rejects_t = {
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
@@ -35,7 +36,7 @@ public class Main {
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0}
-        };
+        };*/
 /*
         int [][] s_has_f = {
                 {0,1,1},{1,1,1},{0,1,1},{0,0,1},{0,0,1},
@@ -61,32 +62,40 @@ public class Main {
 
     }
 
+    public static void capsulatedModel(){
+        InputReader ir = new InputReader("C:/Users/Tu/Desktop/tt_project/tt_input2.json");
+        TT_Solver solver = new TT_Solver(ir);
+        SolutionConverter sc = solver.solve();
+        OutputWriter ow = new OutputWriter(sc,ir);
+        ow.writeInJSON("C:/Users/Tu/Desktop/tt_project/tt_output.json");
+    }
+
     public static void firstUsefulModel(){
         Model model = new Model("usefulmodel");
 
-        InputReader ir = new InputReader("C:/Users/Tu/Desktop/tt_project/tt_input2.json");
+      //  InputReader ir = new InputReader("C:/Users/Tu/Desktop/tt_project/tt_input2.json");
 
 
-       /* int STUDENTS = 20;
+        int STUDENTS = 20;
         int GROUPS = 9;
         int TIMESLOTS = 8;
         int SUBJECTS = 3;
         int MAX_CAP = 11;
-        int MIN_CAP = 0;*/
+        int MIN_CAP = 0;
 
-        int STUDENTS = ir.getAll_students().size();
+        /*int STUDENTS = ir.getAll_students().size();
         int GROUPS = 9;
         int TIMESLOTS = ir.getAll_timeslots().size();
         int SUBJECTS = ir.getAll_subjects().size();
         int MAX_CAP = 11;
-        int MIN_CAP = 0;
+        int MIN_CAP = 0;*/
 
 
 
        /* int STUDENTS = 40;
         int GROUPS = 24;
         int TIMESLOTS = 18;
-        int SUBJECTS = 3;
+        int SUBJECTS = 4;
         int MAX_CAP = 10;
         int MIN_CAP = 0;*/
 
@@ -98,8 +107,10 @@ public class Main {
         IntVar[][] s_rej_t = new IntVar[STUDENTS][TIMESLOTS];
         IntVar[][] _s_has_f = new IntVar[STUDENTS][SUBJECTS];
         IntVar [] _g_of_f = new IntVar[GROUPS];
+        IntVar[] _f_min_cap = new IntVar[SUBJECTS];
+        IntVar[] _f_max_cap = new IntVar[SUBJECTS];
 
-      /* int [][] s_rejects_t = {
+       int [][] s_rejects_t = {
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
@@ -108,16 +119,16 @@ public class Main {
         int [][] s_has_f = {{1,0,1},{1,1,1},{0,1,1},{0,0,1},{0,0,1},
                 {1,1,1},{1,1,1},{1,1,1},{1,1,1},{1,0,1},
                 {1,1,1},{1,1,1},{1,0,0},{0,1,1},{1,1,1},
-                {1,1,1},{1,1,1},{1,0,1},{1,1,1},{0,0,1}};*/
+                {1,1,1},{1,1,1},{1,0,1},{1,1,1},{0,0,1}};
 
-       int[][]s_rejects_t = ir.get_s_rejects_t();
-       int[][] s_has_f = ir.get_s_has_f();
+      // int[][]s_rejects_t = ir.get_s_rejects_t();
+       //int[][] s_has_f = ir.get_s_has_f();
         //int [][] s_has_f = {{1,1,1},{1,1,1},{0,1,1},{0,0,1}}; 47
 
         int [] g_of_f = {0,1,2,0,1,2,0,1,2};
 
 
-       /* int [][] s_rejects_t = {
+      /*  int [][] s_rejects_t = {
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                 {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
@@ -141,20 +152,21 @@ public class Main {
         };
 
         int [][] s_has_f = {
-                {0,1,1},{1,1,1},{0,1,1},{0,0,1},{0,0,1},
-                {1,1,1},{1,1,1},{1,1,1},{1,1,1},{1,0,1},
-                {1,1,1},{1,1,1},{1,0,0},{0,1,1},{1,1,1},
-                {1,1,1},{1,1,1},{1,0,1},{1,1,1},{0,0,1},
-                {0,1,1},{1,1,1},{0,1,1},{0,0,1},{0,0,1},
-                {1,1,1},{1,1,1},{1,1,1},{1,1,1},{1,0,1},
-                {1,1,1},{1,1,1},{1,0,0},{0,1,1},{1,1,1},
-                {1,1,1},{1,1,1},{1,0,1},{1,1,1},{0,0,1}
-        };
+                {0,1,1,1},{1,1,1,1},{0,1,1,0},{0,0,1,1},{1,0,0,1},
+                {1,1,1,1},{1,1,1,1},{1,1,1,1},{1,1,1,1},{1,1,0,1},
+                {1,1,1,1},{1,1,1,1},{1,0,0,1},{1,0,1,1},{1,1,1,1},
+                {1,1,1,1},{1,1,1,1},{1,1,0,1},{1,1,1,1},{1,0,0,1},
+                {1,0,1,1},{1,1,1,1},{1,0,1,1},{1,0,0,1},{1,0,0,1},
+                {1,1,1,1},{1,1,1,1},{1,1,1,1},{1,1,1,1},{1,1,0,1},
+                {1,1,1,1},{1,1,1,1},{1,1,0,0},{1,0,1,1},{1,1,1,1},
+                {1,1,1,1},{1,1,1,1},{1,1,0,1},{1,1,1,1},{1,0,0,1}
+        };*/
 
-        int [] g_of_f = {0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2};
-        */
+        //int [] g_of_f = {0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2};
+       // int [] g_of_f =   {0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,3,3};
 
-
+        int[] f_min_cap = {3,3,3};
+        int[] f_max_cap = {11,11,11};
 
 
         //initialize variables:
@@ -222,6 +234,11 @@ public class Main {
             }
         }
 
+        for (int i=0; i<SUBJECTS;i++){
+            _f_min_cap[i] = model.intVar(f_min_cap[i]);
+            _f_max_cap[i] = model.intVar(f_max_cap[i]);
+        }
+
         //Wenn sich ein Student in einer Gruppe befindet, die in einem Fachzugeordnet ist, dann befindet
         // sie sich der Student auch in der Gruppe. (Beziehung zwischen s_in_g_of_f und s_in_g festlegen,
         // damit s_in_g_of_f nur dann zutrifft, wenn auch s_in_g zutrifft und umgekehrt
@@ -248,7 +265,7 @@ public class Main {
         }
 
         //gruppenkapazitäten einhalten!
-        for(int s=0; s<STUDENTS;s++){
+        /*for(int s=0; s<STUDENTS;s++){
             for(int g =0; g< GROUPS; g++){
                 IntVar[] abs = new IntVar[STUDENTS];
                 for(int i=0;i<STUDENTS;i++){
@@ -257,6 +274,24 @@ public class Main {
                 model.sum(abs, "<=", MAX_CAP).post();
                 model.sum(abs, ">=", MIN_CAP).post();
             }
+        }*/
+
+
+
+        for(int s=0; s<STUDENTS;s++){
+            for(int g=0; g<GROUPS;g++){
+                IntVar[] abs = new IntVar[STUDENTS];
+                for (int i = 0; i < STUDENTS; i++) {
+                    abs[i] = s_in_g[i][g];
+                }
+                for(int f=0; f<SUBJECTS;f++){
+                    model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(_g_of_f[g],"=",f)),
+                            model.sum(abs,"<=",_f_max_cap[f]) );
+                    model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(_g_of_f[g],"=",f)),
+                            model.sum(abs,">=",_f_min_cap[f]) );
+                }
+            }
+
         }
 
         //wenn s_in_g dann auch s_in_g_in_t unter maximal einem timeslot
@@ -294,9 +329,9 @@ public class Main {
             output.print_schedule("%s_in_g[",5);
             output.print_schedule("%g_in_t[",TIMESLOTS);
             output.print_schedule("%g_of_f[",TIMESLOTS);
-            SolutionConverter sc = new SolutionConverter(solution_s,g_of_f);
-            OutputWriter ow = new OutputWriter(sc,ir);
-            ow.writeInJSON();
+            //SolutionConverter sc = new SolutionConverter(solution_s,g_of_f);
+            //OutputWriter ow = new OutputWriter(sc,ir);
+            //ow.writeInJSON("C:/Users/Tu/Desktop/tt_project/tt_input2.json");
         }
         else {
             System.out.println("No Solution found.");
