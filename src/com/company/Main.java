@@ -4,6 +4,7 @@ import org.chocosolver.solver.Solution;
 import org.chocosolver.solver.variables.BoolVar;
 import org.chocosolver.solver.variables.IntVar;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,6 +20,9 @@ public class Main {
 
         //firstUsefulModel();
          capsulatedModel();
+
+       // OutputReader or = new OutputReader();
+        //or.readFile("C:/Users/Tu/Desktop/tt_project/tt_output.json");
           /* int STUDENTS = 40;
         int GROUPS = 24;
         int TIMESLOTS = 18;
@@ -68,6 +72,11 @@ public class Main {
         SolutionConverter sc = solver.solve();
         OutputWriter ow = new OutputWriter(sc,ir);
         ow.writeInJSON("C:/Users/Tu/Desktop/tt_project/tt_output.json");
+        OutputReader or = new OutputReader();
+        or.readFile("C:/Users/Tu/Desktop/tt_project/tt_output.json");
+        TimeTableValidator ttv = new TimeTableValidator(ir,or);
+        System.out.println(ttv.check_s_has_f_condition());
+        System.out.println(ttv.check_s_rej_t_condition());
     }
 
     public static void firstUsefulModel(){
