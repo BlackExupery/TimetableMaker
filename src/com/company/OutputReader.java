@@ -79,7 +79,15 @@ public class OutputReader {
 
     }
 
+    public Map<Long,List<Long>> get_s_in_g(){
+        return this.s_in_g;
+    }
 
+    public Map<Long,String> get_g_of_sbj(){
+        return this.g_of_sbj;
+    }
 
-
+    public Map<Long, String> get_g_in_t() {
+        return g_in_t;
+    }
 }
