@@ -3,6 +3,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import org.json.simple.JSONArray;
@@ -15,11 +17,14 @@ public class InputReader {
     private Map<Long,Integer> all_students;
     private Map<String,Integer> all_timeslots;
     private Map<String,Integer> all_subjects;
+
+    private Map<Long,List<String>> map_s_has_f = new HashMap<Long,List<String>>();
+    private Map<Long,List<String>> map_s_rejects_t = new HashMap<Long,List<String>>();
     private int [][] s_has_f;
     private int [][] s_rejects_t;
     private JSONParser parser;
 
-    private void fill_s_has_f(JSONObject jObject){
+    private void write_s_has_f(JSONObject jObject){
         s_has_f = new int[all_students.size()][all_subjects.size()];
         //first fill array with 0's
         for(int i=0; i<all_students.size();i++){
@@ -36,13 +41,18 @@ public class InputReader {
 
             for(int j=0; j<students.size();j++){
                 JSONObject student = (JSONObject)students.get(j);
-                s_has_f[all_students.get((Long)student.get("id"))][all_subjects.get((String)subject.get("id"))]=1;
+                Long sid = (Long) student.get("id");
+                s_has_f[all_students.get(sid)][all_subjects.get((String)subject.get("id"))]=1;
+                if(!this.map_s_has_f.containsKey(sid)){
+                    this.map_s_has_f.put(sid,new LinkedList<String>());
+                }
+                this.map_s_has_f.get(sid).add((String)subject.get("id"));
             }
         }
     }
 
 
-    private void fill_s_rejects_t(JSONObject jObject){
+    private void write_s_rejects_t(JSONObject jObject){
         s_rejects_t = new int[all_students.size()][all_timeslots.size()];
         for(int i=0; i<all_students.size();i++){
             for(int j=0; j<all_timeslots.size();j++){
@@ -53,7 +63,12 @@ public class InputReader {
         JSONArray unwanted_timeslots = (JSONArray)jObject.get("unwanted_timeslots");
         for(int i=0; i<unwanted_timeslots.size();i++){
             JSONObject ut = (JSONObject)unwanted_timeslots.get(i);
-            s_rejects_t[all_students.get((Long)ut.get("s_id"))][all_timeslots.get((String)ut.get("ts_id"))]=1;
+            Long sid = (Long) ut.get("s_id");
+            s_rejects_t[all_students.get(sid)][all_timeslots.get((String)ut.get("ts_id"))]=1;
+            if(!map_s_rejects_t.containsKey(sid)){
+                map_s_rejects_t.put(sid,new LinkedList<String>());
+            }
+            map_s_rejects_t.get(sid).add((String)ut.get("ts_id"));
         }
     }
 
@@ -110,8 +125,8 @@ public class InputReader {
             getAllStudents(jsonObject);
             getAllSubjects(jsonObject);
             getAllTimeslots(jsonObject);
-            fill_s_has_f(jsonObject);
-            fill_s_rejects_t(jsonObject);
+            write_s_has_f(jsonObject);
+            write_s_rejects_t(jsonObject);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -149,5 +164,11 @@ public class InputReader {
 		System.out.println(all_timeslots.size());
     }
 
+    public Map<Long,List<String>> get_map_s_has_f(){
+        return this.map_s_has_f;
+    }
 
+    public Map<Long, List<String>> get_map_s_rejects_t() {
+        return map_s_rejects_t;
+    }
 }
