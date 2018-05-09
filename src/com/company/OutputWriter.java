@@ -2,6 +2,8 @@ package com.company;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -32,6 +34,7 @@ public class OutputWriter {
         this.g_in_t = sc.get_g_in_t();
     }
 
+    //bilde die Matrix-Indezies auf die konkrete ID ab
     private void s_index_to_id(){
         for(Long s : all_students.keySet()){
            int index = all_students.get(s);
@@ -69,6 +72,7 @@ public class OutputWriter {
     }
 
 
+    //output als JSON-Datei
     public void writeInJSON(String path){
        JSONObject root = new JSONObject();
        JSONArray s_in_g_list = new JSONArray();
@@ -104,10 +108,12 @@ public class OutputWriter {
        root.put("s_in_g",s_in_g_list);
        root.put("g_of_sbj",g_of_f_list);
        root.put("g_in_t",g_in_t_list);
+       Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
 
         try (FileWriter file = new FileWriter(path)) {
-
-            file.write(root.toJSONString());
+            //file.write(root.toJSONString());
+            file.write(gson.toJson(root));
             file.flush();
 
         } catch (IOException e) {
