@@ -77,6 +77,7 @@ public class Main {
         TimeTableValidator ttv = new TimeTableValidator(ir,or);
         System.out.println(ttv.check_s_has_f_condition());
         System.out.println(ttv.check_s_rej_t_condition());
+        System.out.println(ttv.check_groupCapacity_condition());
     }
 
     public static void firstUsefulModel(){

@@ -20,9 +20,33 @@ public class InputReader {
 
     private Map<Long,List<String>> map_s_has_f = new HashMap<Long,List<String>>();
     private Map<Long,List<String>> map_s_rejects_t = new HashMap<Long,List<String>>();
+    private Map<String,Integer> map_min_g_capacity = new HashMap<String, Integer>();
+    private Map<String,Integer> map_max_g_capacity = new HashMap<String,Integer>();
+    private int [] min_g_capacity;
+    private int [] max_g_capacity;
     private int [][] s_has_f;
     private int [][] s_rejects_t;
     private JSONParser parser;
+
+
+    private void write_g_capacity(JSONObject jObject){
+        min_g_capacity = new int[all_subjects.size()];
+        max_g_capacity = new int[all_subjects.size()];
+        JSONArray subjects = (JSONArray) jObject.get("subjects");
+
+        for(int i=0; i<subjects.size();i++){
+            JSONObject subject = (JSONObject)subjects.get(i);
+            String sbj_id = (String)subject.get("id");
+            int min_cap = Math.toIntExact((Long) subject.get("min_cap"));
+            int max_cap = Math.toIntExact((Long)subject.get("max_cap"));
+
+            min_g_capacity[all_subjects.get(sbj_id)] = min_cap;
+            max_g_capacity[all_subjects.get(sbj_id)] = max_cap;
+
+            map_min_g_capacity.put(sbj_id,min_cap);
+            map_max_g_capacity.put(sbj_id,max_cap);
+        }
+    }
 
     private void write_s_has_f(JSONObject jObject){
         s_has_f = new int[all_students.size()][all_subjects.size()];
@@ -127,6 +151,7 @@ public class InputReader {
             getAllTimeslots(jsonObject);
             write_s_has_f(jsonObject);
             write_s_rejects_t(jsonObject);
+            write_g_capacity(jsonObject);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -158,10 +183,27 @@ public class InputReader {
         return this.s_rejects_t;
     }
 
+    public int[] get_min_g_capacity(){
+        return this.min_g_capacity;
+    }
+
+    public int[] get_max_g_capacity(){
+        return this.max_g_capacity;
+    }
+
+    public Map<String, Integer> get_map_min_g_capacity() {
+        return map_min_g_capacity;
+    }
+
+    public Map<String, Integer> get_map_max_g_capacity() {
+        return map_max_g_capacity;
+    }
+
     public void printContent(){
 		System.out.println(all_students.size());
 		System.out.println(all_subjects.size());
 		System.out.println(all_timeslots.size());
+
     }
 
     public Map<Long,List<String>> get_map_s_has_f(){

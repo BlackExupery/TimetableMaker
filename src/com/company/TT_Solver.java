@@ -24,8 +24,8 @@ public class TT_Solver {
         int MAX_CAP = 11;
         int MIN_CAP = 0;
 
-        int[] f_min_cap = {0,0,0};
-        int[] f_max_cap = {11,11,11};
+        int[] f_min_cap = this.input.get_min_g_capacity();
+        int[] f_max_cap = this.input.get_max_g_capacity();
 
         IntVar[][][] s_in_g_of_f = new IntVar[STUDENTS][GROUPS][SUBJECTS];
         IntVar[][] s_in_g = new IntVar[STUDENTS][GROUPS];

@@ -85,9 +85,32 @@ public class TimeTableValidator {
         return true;
     }
 
-   /* public boolean check_groupCapacity_condition(){
+    public boolean check_groupCapacity_condition(){
+        Map<String,Integer> min_cap = inputdata.get_map_min_g_capacity();
+        Map<String,Integer> max_cap = inputdata.get_map_max_g_capacity();
+        Map<Long,String> g_of_sbj = outputdata.get_g_of_sbj();
+        Map<String,Integer> all_subjects = inputdata.getAll_subjects();
 
-    }*/
+        for(String sbj : all_subjects.keySet()){
+            int g_count =0;
+            for(Long g : g_of_sbj.keySet()){
+                if(g_of_sbj.containsKey(sbj)){
+                    g_count++;
+                }
+
+            }
+
+            if(g_count<min_cap.get(sbj)){
+                return false;
+            }
+            if(g_count>max_cap.get(sbj)){
+                return false;
+            }
+        }
+
+
+        return true;
+    }
 
 
 }
