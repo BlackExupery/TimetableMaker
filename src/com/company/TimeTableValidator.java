@@ -85,11 +85,11 @@ public class TimeTableValidator {
         return true;
     }
 
-    public boolean check_groupCapacity_condition(){
+    public boolean checkGroupCapacityCondition(){
         Map<String,Integer> min_cap = inputdata.get_map_min_g_capacity();
         Map<String,Integer> max_cap = inputdata.get_map_max_g_capacity();
         Map<Long,String> g_of_sbj = outputdata.get_g_of_sbj();
-        Map<String,Integer> all_subjects = inputdata.getAll_subjects();
+        Map<String,Integer> all_subjects = inputdata.getAllSubjects();
 
         for(String sbj : all_subjects.keySet()){
             int g_count =0;

@@ -9,54 +9,7 @@ import org.chocosolver.solver.variables.IntVar;
 public class Main {
 
     public static void main(String[] args) {
-       // MappedSolution sc = new MappedSolution(s);
-
-        //firstUsefulModel();
          capsulatedModel();
-
-       // OutputReader or = new OutputReader();
-        //or.readFile("C:/Users/Tu/Desktop/tt_project/tt_output.json");
-          /* int STUDENTS = 40;
-        int GROUPS = 24;
-        int TIMESLOTS = 18;
-        int SUBJECTS = 3;
-        int MAX_CAP = 10;
-        int MIN_CAP = 0;*/
-
-
-      /* int [][] s_rejects_t = {
-                {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},
-                {0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0},{0,0,0,0,0,0,0,0}
-        };*/
-/*
-        int [][] s_has_f = {
-                {0,1,1},{1,1,1},{0,1,1},{0,0,1},{0,0,1},
-                {1,1,1},{1,1,1},{1,1,1},{1,1,1},{1,0,1},
-                {1,1,1},{1,1,1},{1,0,0},{0,1,1},{1,1,1},
-                {1,1,1},{1,1,1},{1,0,1},{1,1,1},{0,0,1},
-                {0,1,1},{1,1,1},{0,1,1},{0,0,1},{0,0,1},
-                {1,1,1},{1,1,1},{1,1,1},{1,1,1},{1,0,1},
-                {1,1,1},{1,1,1},{1,0,0},{0,1,1},{1,1,1},
-                {1,1,1},{1,1,1},{1,0,1},{1,1,1},{0,0,1}
-                };
-
-         int [] g_of_f = {0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2};
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       *
-       * */
-
     }
 
     public static void capsulatedModel(){
@@ -70,7 +23,7 @@ public class Main {
         TimeTableValidator ttv = new TimeTableValidator(ir,or);
         System.out.println(ttv.check_s_has_f_condition());
         System.out.println(ttv.check_s_rej_t_condition());
-        System.out.println(ttv.check_groupCapacity_condition());
+        System.out.println(ttv.checkGroupCapacityCondition());
     }
 
     public static void firstUsefulModel(){

@@ -16,7 +16,6 @@ import org.yaml.snakeyaml.events.MappingEndEvent;
 public class TT_Solver {
 
     private Model model;
-    private Solution solution;
     private IntVar[][][] s_in_g_of_sbj;
     private IntVar[][] s_in_g;
     private IntVar[] g_in_t;
@@ -39,12 +38,14 @@ public class TT_Solver {
     private int SUBJECTS;
 
     public TT_Solver(InputReader ir){
+
+        /*  INITIALISIERE VARIABLEN! */
         model = new Model("Timetable-Solver");
 
-        STUDENTS = ir.getAll_students().size();
+        STUDENTS = ir.getAllStudents().size();
         GROUPS = 9;
-        TIMESLOTS = ir.getAll_timeslots().size();
-        SUBJECTS = ir.getAll_subjects().size();
+        TIMESLOTS = ir.getAllTimeslots().size();
+        SUBJECTS = ir.getAllSubjects().size();
 
         subject_min_cap = ir.get_min_g_capacity();
         subject_max_cap = ir.get_max_g_capacity();
@@ -62,7 +63,6 @@ public class TT_Solver {
         student_rejects_timeslot = ir.get_s_rejects_t();
         student_has_subject = ir.get_s_has_f();
 
-        //initialize variables:
         for (int i = 0; i < STUDENTS; i++) {
             for (int j = 0; j < GROUPS; j++) {
                 s_in_g[i][j] = model.intVar("%s_in_g[" + i + "][" + j + "]", 0, 1);
@@ -101,6 +101,14 @@ public class TT_Solver {
     }
 
     public MappedSolution solve() {
+        defineConstraints();
+        Solution solution = model.getSolver().findSolution();
+        MappedSolution mc = new MappedSolution(solution.toString(),group_of_subject);
+        return mc;
+
+    }
+
+    private void defineConstraints(){
         //CONSTRAINTS!
         // a) wenn student einem fach zugeordnet ist, dann befindet er sich in genau einer der Gruppen
         // die diesem Fach zugeordnet sind
@@ -165,7 +173,7 @@ public class TT_Solver {
                 }
                 for(int f=0; f<SUBJECTS;f++){
                     model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(g_of_sbj[g],"=",f)),
-                           model.sum(abs,"<=",sbj_max_cap[f]) );
+                            model.sum(abs,"<=",sbj_max_cap[f]) );
                     model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(g_of_sbj[g],"=",f)),
                             model.sum(abs,">=",sbj_min_cap[f]) );
                 }
@@ -199,32 +207,6 @@ public class TT_Solver {
                 }
             }
         }
-
-        solution = model.getSolver().findSolution();
-        MappedSolution mc = new MappedSolution(solution.toString(),group_of_subject);
-
-        return mc;
-
     }
 
-
-    public Solution getSolution() {
-        return solution;
-    }
-
-    public IntVar[][] get_s_in_g() {
-        return s_in_g;
-    }
-
-    public IntVar[] get_g_in_t() {
-        return g_in_t;
-    }
-
-    public IntVar[] get_g_of_sbj(){
-        return g_of_sbj;
-    }
-
-    public IntVar[][] get_s_has_sbj() {
-        return s_has_sbj;
-    }
 }

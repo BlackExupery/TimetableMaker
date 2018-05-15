@@ -1,7 +1,4 @@
 package com.company;
-import org.chocosolver.solver.Model;
-import org.chocosolver.solver.Solution;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,6 +15,34 @@ public class MappedSolution {
     private Map<Integer,Map<Integer,Map<Integer,Integer>>> s_in_g_in_t = new HashMap<Integer, Map<Integer,Map<Integer,Integer>>>();
 
 
+    public MappedSolution(String s, int[]_g_of_f){
+        for(String solution : s.split(" ")){
+            writeSolutionInMap(solution);
+        }
+
+        for(int i=0; i<_g_of_f.length;i++){
+            this.g_of_f.put(i,_g_of_f[i]);
+        }
+
+        System.out.println("sgf: "+s_in_g_of_f.toString());
+        System.out.println("sg: "+s_in_g.toString());
+        System.out.println("sf: "+s_has_f.toString());
+        System.out.println("sgt: "+s_in_g_in_t.toString());
+        System.out.println("gf: "+g_of_f.toString());
+        System.out.println("gt: "+g_in_t.toString());
+    }
+
+    public Map<Integer, Map<Integer, Integer>> get_s_in_g() {
+        return this.s_in_g;
+    }
+
+    public Map<Integer, Integer> get_g_in_t() {
+        return this.g_in_t;
+    }
+
+    public Map<Integer, Integer> get_g_of_f() {
+        return this.g_of_f;
+    }
 
     private List<Integer> getValues(String input) {
         List<Integer> values = new LinkedList<Integer>();
@@ -80,43 +105,4 @@ public class MappedSolution {
         }
 
 
-    public MappedSolution(Solution s, int[]_g_of_f){
-        String [] solution_string = s.toString().split(" ");
-        for(int i=0; i< solution_string.length;i++){
-            writeSolutionInMap(solution_string[i]);
-        }
-
-        for(int i=0; i<_g_of_f.length;i++){
-            this.g_of_f.put(i,_g_of_f[i]);
-        }
-    }
-
-    public MappedSolution(String s, int[]_g_of_f){
-        for(String solution : s.split(" ")){
-            writeSolutionInMap(solution);
-        }
-
-        for(int i=0; i<_g_of_f.length;i++){
-            this.g_of_f.put(i,_g_of_f[i]);
-        }
-
-        System.out.println("sgf: "+s_in_g_of_f.toString());
-        System.out.println("sg: "+s_in_g.toString());
-        System.out.println("sf: "+s_has_f.toString());
-        System.out.println("sgt: "+s_in_g_in_t.toString());
-        System.out.println("gf: "+g_of_f.toString());
-        System.out.println("gt: "+g_in_t.toString());
-    }
-
-    public Map<Integer, Map<Integer, Integer>> get_s_in_g() {
-        return this.s_in_g;
-    }
-
-    public Map<Integer, Integer> get_g_in_t() {
-        return this.g_in_t;
-    }
-
-    public Map<Integer, Integer> get_g_of_f() {
-        return this.g_of_f;
-    }
 }

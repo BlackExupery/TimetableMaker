@@ -2,6 +2,7 @@ package com.company;
 
 
 public class SolutionOutput {
+
     private String solution;
 
     public SolutionOutput(String s){
