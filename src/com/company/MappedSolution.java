@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class SolutionConverter {
+public class MappedSolution {
 
     private Map<Integer, Map<Integer,Map<Integer,Integer>>> s_in_g_of_f = new HashMap<Integer, Map<Integer,Map<Integer,Integer>>>();
     private Map<Integer,Map<Integer,Integer>> s_in_g = new HashMap<Integer,Map<Integer,Integer>>();
@@ -17,9 +17,10 @@ public class SolutionConverter {
     private Map<Integer,Integer> g_in_t = new HashMap<Integer,Integer>();
     private Map<Integer,Map<Integer,Map<Integer,Integer>>> s_in_g_in_t = new HashMap<Integer, Map<Integer,Map<Integer,Integer>>>();
 
+
+
     private List<Integer> getValues(String input) {
         List<Integer> values = new LinkedList<Integer>();
-
         for (int i = 0; i < input.length(); i++) {
             char c = input.charAt(i);
             if (c > 47 && c < 58) {
@@ -79,9 +80,7 @@ public class SolutionConverter {
         }
 
 
-
-
-    public SolutionConverter(Solution s, int[]_g_of_f){
+    public MappedSolution(Solution s, int[]_g_of_f){
         String [] solution_string = s.toString().split(" ");
         for(int i=0; i< solution_string.length;i++){
             writeSolutionInMap(solution_string[i]);
@@ -92,7 +91,7 @@ public class SolutionConverter {
         }
     }
 
-    public SolutionConverter(String s, int[]_g_of_f){
+    public MappedSolution(String s, int[]_g_of_f){
         for(String solution : s.split(" ")){
             writeSolutionInMap(solution);
         }

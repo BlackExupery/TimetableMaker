@@ -1,14 +1,7 @@
 package com.company;
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.Solution;
-import org.chocosolver.solver.variables.BoolVar;
 import org.chocosolver.solver.variables.IntVar;
-
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
 
 
 //anmerkung: constraint, dass eine Gruppe entweder 0 oder min_capazität einhält ist noch nicht implementiert
@@ -16,7 +9,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-       // SolutionConverter sc = new SolutionConverter(s);
+       // MappedSolution sc = new MappedSolution(s);
 
         //firstUsefulModel();
          capsulatedModel();
@@ -69,8 +62,8 @@ public class Main {
     public static void capsulatedModel(){
         InputReader ir = new InputReader("C:/Users/Tu/Desktop/tt_project/tt_input2.json");
         TT_Solver solver = new TT_Solver(ir);
-        SolutionConverter sc = solver.solve();
-        OutputWriter ow = new OutputWriter(sc,ir);
+        MappedSolution mc = solver.solve();
+        OutputWriter ow = new OutputWriter(mc,ir);
         ow.writeInJSON("C:/Users/Tu/Desktop/tt_project/tt_output.json");
         OutputReader or = new OutputReader();
         or.readFile("C:/Users/Tu/Desktop/tt_project/tt_output.json");
@@ -339,7 +332,7 @@ public class Main {
             output.print_schedule("%s_in_g[",5);
             output.print_schedule("%g_in_t[",TIMESLOTS);
             output.print_schedule("%g_of_f[",TIMESLOTS);
-            //SolutionConverter sc = new SolutionConverter(solution_s,g_of_f);
+            //MappedSolution sc = new MappedSolution(solution_s,g_of_f);
             //OutputWriter ow = new OutputWriter(sc,ir);
             //ow.writeInJSON("C:/Users/Tu/Desktop/tt_project/tt_input2.json");
         }

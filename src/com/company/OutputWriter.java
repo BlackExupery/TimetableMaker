@@ -9,7 +9,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class OutputWriter {
 
@@ -25,13 +24,22 @@ public class OutputWriter {
     private Map<Integer,String> g_of_f_out = new HashMap<Integer,String>();
     private Map<Integer,String> g_in_t_out = new HashMap<Integer,String>();
 
-    public OutputWriter(SolutionConverter sc,InputReader ir){
+    public OutputWriter(MappedSolution sc, InputReader ir){
         this.all_students = ir.getAll_students();
         this.all_timeslots = ir.getAll_timeslots();
         this.all_subjects = ir.getAll_subjects();
         this.s_in_g = sc.get_s_in_g();
         this.g_of_f = sc.get_g_of_f();
         this.g_in_t = sc.get_g_in_t();
+    }
+
+    OutputWriter(SolutionMapper_Test ms, InputReader ir){
+        this.all_students = ir.getAll_students();
+        this.all_timeslots = ir.getAll_timeslots();
+        this.all_subjects = ir.getAll_subjects();
+        this.s_in_g = ms.get_s_in_g();
+        this.g_of_f = ms.get_g_of_sbj();
+        this.g_in_t = ms.get_g_in_t();
     }
 
     //bilde die Matrix-Indezies auf die konkrete ID ab
