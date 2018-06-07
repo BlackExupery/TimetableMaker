@@ -1,10 +1,7 @@
 package com.company;
-
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.Solution;
 import org.chocosolver.solver.variables.IntVar;
-import org.yaml.snakeyaml.events.MappingEndEvent;
-
 
 /*
 * TO DO'S
@@ -12,6 +9,22 @@ import org.yaml.snakeyaml.events.MappingEndEvent;
 *
 *
 * */
+
+
+/**
+ * ENTWURFSNOTIZEN:
+ * - Ein Interface welches eine unbestimmte Anzahl von parametern unterschiedlicher Datentypen ist nicht erstellbar
+ * in Java, deshalb werde ich mir vornehmen, eine statische Klasse mit Constraint-Methoden zu entwerfen,
+ * die dann aufgerufen werden.
+ *
+ * Dies ist notwendig, um ansteuern zu können, welche Constraints wir aktiviert haben wollen oder nicht in
+ * der Anwendung.
+ *
+ * - Bin zufrieden mit den Einlesevorgang. (VariablenNamen umbenennen.)
+ *
+ *
+ *
+ */
 
 public class TT_Solver {
 
@@ -40,6 +53,8 @@ public class TT_Solver {
     public TT_Solver(InputReader ir){
 
         /*  INITIALISIERE VARIABLEN! */
+
+        /*Reguläre Variablen*/
         model = new Model("Timetable-Solver");
 
         STUDENTS = ir.getAllStudents().size();
@@ -63,6 +78,7 @@ public class TT_Solver {
         student_rejects_timeslot = ir.get_s_rejects_t();
         student_has_subject = ir.get_s_has_f();
 
+        /* Constraint-Variablen */
         for (int i = 0; i < STUDENTS; i++) {
             for (int j = 0; j < GROUPS; j++) {
                 s_in_g[i][j] = model.intVar("%s_in_g[" + i + "][" + j + "]", 0, 1);
@@ -101,11 +117,23 @@ public class TT_Solver {
     }
 
     public MappedSolution solve() {
-        defineConstraints();
+       // defineConstraints();
+        useStaticConstraints();
         Solution solution = model.getSolver().findSolution();
         MappedSolution mc = new MappedSolution(solution.toString(),group_of_subject);
         return mc;
 
+    }
+
+
+    private void useStaticConstraints(){
+        TT_Constraints.abideGroupCapacity(model,s_in_g,g_of_sbj,sbj_max_cap,sbj_min_cap,STUDENTS,GROUPS,SUBJECTS);
+        TT_Constraints.assignStudentToGroupAcordingToSubject(model,s_in_g_of_sbj,s_has_sbj,STUDENTS,GROUPS,SUBJECTS);
+        TT_Constraints.cancelNotPossibleTimeslotsPerStudent(model, s_in_g,s_rej_t,g_in_t,STUDENTS,GROUPS,TIMESLOTS);
+        TT_Constraints.s_in_g_of_f_to_s_in_g(model,s_in_g_of_sbj,s_in_g,STUDENTS,GROUPS,SUBJECTS);
+        TT_Constraints.s_in_g_to_s_in_g_of_f(model,s_in_g_of_sbj,s_in_g,g_of_sbj,STUDENTS,GROUPS,SUBJECTS);
+        TT_Constraints.setStudentInSameTimeslotAsItsGroup(model,s_in_g_in_t,s_in_g,g_in_t,STUDENTS,GROUPS,TIMESLOTS);
+        TT_Constraints.studentInJustOneGroupPerSubject(model,s_in_g,g_of_sbj,STUDENTS,GROUPS,SUBJECTS);
     }
 
     private void defineConstraints(){
