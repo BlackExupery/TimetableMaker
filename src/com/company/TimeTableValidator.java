@@ -1,7 +1,17 @@
 package com.company;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+/*
+* Anmerkung: -lass den TimeTableValidator so wie er ist und integriere ihn in JUnittests.
+* - schreibe testfälle für die Pipelines (korrekte eingabe und ausgabe!)
+* - schreibe testfälle um die Korrektheit des TimeTableValidators zu bestätigen.
+*
+    // ein Student darf sich nur 1x in einer Gruppe befinden.
+    // eine Gruppe darf sich nur in genau 1 Zeitslot befinden.
+* */
 
 public class TimeTableValidator {
 
@@ -46,6 +56,35 @@ public class TimeTableValidator {
 
         }
         //wenn alle studenten fehlerfrei untersucht wurden, ist die s_in_g-Voraussetzung erfüllt.
+        return true;
+    }
+
+
+
+    // ein Student darf sich nur in einer Gruppe je Zeitslot befinden.
+    public boolean check_unique_studentassignment_per_timeslot(){
+        Map<Long,List<Long>> s_in_g = outputdata.get_s_in_g();
+        Map<Long,String> g_in_t = outputdata.get_g_in_t();
+
+        //gehe jeden Studenten durch
+        for(Long s : s_in_g.keySet()){
+            //gehe jeden Zeitslot durch
+            for(String t : g_in_t.values()){
+                int counter = 0;
+                //überprüfe, wie viele Gruppen des Studentens zur selben Zeit stattfinden
+                for(Long g : s_in_g.get(s)){
+                    if(g_in_t.get(g).equals(t)){
+                        counter++;
+                    }
+                    //Es darf nicht mehr als 1 Gruppe des Studenten zur selben Zeit stattfinden!
+                    if(counter > 1){
+                        return false;
+                    }
+                }
+
+            }
+
+        }
         return true;
     }
 

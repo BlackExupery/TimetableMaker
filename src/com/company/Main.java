@@ -12,6 +12,7 @@ public class Main {
          capsulatedModel();
     }
 
+    // Anmerkung: Inputreader und Outputreader haben unterschiedliche lese/schreib Aufrufe
     public static void capsulatedModel(){
         InputReader ir = new InputReader("C:/Users/Tu/Desktop/tt_project/tt_input2.json");
         TT_Solver solver = new TT_Solver(ir);
@@ -24,6 +25,7 @@ public class Main {
         System.out.println(ttv.check_s_has_f_condition());
         System.out.println(ttv.check_s_rej_t_condition());
         System.out.println(ttv.checkGroupCapacityCondition());
+        System.out.println(ttv.check_unique_studentassignment_per_timeslot());
     }
 
     public static void firstUsefulModel(){

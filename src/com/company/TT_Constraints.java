@@ -92,7 +92,7 @@ public class TT_Constraints {
         }
     }
 
-    //f) wenn s_in_g dann auch s_in_g_in_t unter maximal einem timeslot
+    //f) wenn s_in_g dann auch s_in_g_in_t unter maximal einem timeslot, ansonsten nicht.
     public static void setStudentInSameTimeslotAsItsGroup(Model model, IntVar[][][]s_in_g_in_t, IntVar[][]s_in_g, IntVar[] g_in_t,
                                                           int totalStudents, int totalGroups, int totalTimeslots){
         for (int s = 0; s < totalStudents; s++) {
@@ -112,7 +112,22 @@ public class TT_Constraints {
         }
     }
 
-    //g) wenn Student einen Timeslot als nicht möglich markeirt hat, befindet er sich in keiner Gruppe in diesem Timeslot
+    //g) Ein Student darf sich in einem Timeslot nicht mehr als 1x aufhalten.
+
+    public static void studentPerTimeslot(Model model, IntVar[][][]s_in_g_in_t, int totalStudents, int totalGroups, int totalTimeslots){
+
+        for(int s=0; s<totalStudents; s++){
+            for(int t =0; t<totalTimeslots; t++){
+                IntVar[] abs = new IntVar[totalGroups];
+                for(int i =0; i<totalGroups; i++){
+                   abs[i] = s_in_g_in_t[s][i][t];
+                }
+                model.sum(abs,"<=",1).post();
+            }
+        }
+    }
+
+    //h) wenn Student einen Timeslot als nicht möglich markeirt hat, befindet er sich in keiner Gruppe in diesem Timeslot
     public static void cancelNotPossibleTimeslotsPerStudent(Model model, IntVar[][]s_in_g, IntVar[][]s_rej_t,IntVar[]g_in_t,
                                                             int totalStudents, int totalGroups, int totalTimeslots){
         for (int s = 0; s < totalStudents; s++) {

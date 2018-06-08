@@ -133,6 +133,7 @@ public class TT_Solver {
         TT_Constraints.s_in_g_of_f_to_s_in_g(model,s_in_g_of_sbj,s_in_g,STUDENTS,GROUPS,SUBJECTS);
         TT_Constraints.s_in_g_to_s_in_g_of_f(model,s_in_g_of_sbj,s_in_g,g_of_sbj,STUDENTS,GROUPS,SUBJECTS);
         TT_Constraints.setStudentInSameTimeslotAsItsGroup(model,s_in_g_in_t,s_in_g,g_in_t,STUDENTS,GROUPS,TIMESLOTS);
+        TT_Constraints.studentPerTimeslot(model, s_in_g_in_t,STUDENTS, GROUPS,TIMESLOTS);
         TT_Constraints.studentInJustOneGroupPerSubject(model,s_in_g,g_of_sbj,STUDENTS,GROUPS,SUBJECTS);
     }
 
