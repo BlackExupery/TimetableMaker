@@ -1,0 +1,27 @@
+{
+	"subjects":[
+	{"id":"Algorithms 16_17","students":[
+		{"id":100},
+		{"id":101}
+		],
+		"min_cap":0,
+		"max_cap":11},
+	{"id":"Maths II. 16_17","students":[
+		{"id":100},
+		{"id":101}
+	],
+	"min_cap":1,
+	"max_cap":10},
+	],
+	
+	"timeslots":[
+	{"id":"Mo 1."},
+	{"id":"Mo 2."}
+	],
+	
+	"unwanted_timeslots":[
+		{"s_id":100,"ts_id":"Mo 1."},
+		{"s_id":101,"ts_id":"Mo 2."}
+	]
+
+}
