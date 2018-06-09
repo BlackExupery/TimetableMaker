@@ -1,8 +1,13 @@
-package com.company;
+package com.company.TT_Tests.SolutionTests;
 
-import java.util.HashMap;
+import com.company.InputReader;
+import com.company.OutputReader;
+
 import java.util.List;
 import java.util.Map;
+import org.junit.Assert;
+import org.junit.Test;
+import java.nio.file.Paths;
 
 /*
 * Anmerkung: -lass den TimeTableValidator so wie er ist und integriere ihn in JUnittests.
@@ -13,15 +18,18 @@ import java.util.Map;
     // eine Gruppe darf sich nur in genau 1 Zeitslot befinden. muss nicht überprüft werden wegen Hash-Datenstruktur!
 * */
 
-public class TimeTableValidator {
+public class SolutionTest {
 
     private InputReader inputdata;
     private OutputReader outputdata;
+    private static String input = Paths.get(".").toAbsolutePath().normalize().toString()+ "/src/com/company/TT_Tests/SolutionTests/tt_input.json";
+    private static String output = Paths.get(".").toAbsolutePath().normalize().toString()+ "/src/com/company/TT_Tests/SolutionTests/tt_output.json";
+   public void initializeIOReader(String inputPath, String outputPath){
+       this.inputdata = new InputReader(inputPath);
+       this.outputdata = new OutputReader();
+       outputdata.readFile(outputPath);
 
-    public TimeTableValidator(InputReader ir, OutputReader or){
-        this.inputdata = ir;
-        this.outputdata = or;
-    }
+   }
 
     public boolean check_s_has_f_condition(){
 
@@ -148,6 +156,15 @@ public class TimeTableValidator {
 
 
         return true;
+    }
+
+    @Test
+    public void checkAllConstraints(){
+       initializeIOReader(input,output);
+       Assert.assertTrue(check_s_has_f_condition());
+       Assert.assertTrue(check_s_rej_t_condition());
+       Assert.assertTrue(checkGroupCapacityCondition());
+       Assert.assertTrue(check_unique_studentassignment_per_timeslot());
     }
 
 

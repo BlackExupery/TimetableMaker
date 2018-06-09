@@ -6,7 +6,7 @@ import com.company.OutputReader;
 import java.nio.file.Paths;
 /**/
 
-public class IO_Test {
+public class IOTest {
 
 
 

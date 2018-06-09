@@ -21,11 +21,11 @@ public class Main {
         ow.writeInJSON("C:/Users/Tu/Desktop/tt_project/tt_output.json");
         OutputReader or = new OutputReader();
         or.readFile("C:/Users/Tu/Desktop/tt_project/tt_output.json");
-        TimeTableValidator ttv = new TimeTableValidator(ir,or);
-        System.out.println(ttv.check_s_has_f_condition());
-        System.out.println(ttv.check_s_rej_t_condition());
-        System.out.println(ttv.checkGroupCapacityCondition());
-        System.out.println(ttv.check_unique_studentassignment_per_timeslot());
+        //TimeTableValidator ttv = new TimeTableValidator(ir,or);
+        //System.out.println(ttv.check_s_has_f_condition());
+        //System.out.println(ttv.check_s_rej_t_condition());
+        //System.out.println(ttv.checkGroupCapacityCondition());
+        //System.out.println(ttv.check_unique_studentassignment_per_timeslot());
     }
 
     public static void firstUsefulModel(){
