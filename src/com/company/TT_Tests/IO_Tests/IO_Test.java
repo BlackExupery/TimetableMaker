@@ -1,9 +1,9 @@
-package com.company.TT_Tests;
+package com.company.TT_Tests.IO_Tests;
 import org.junit.Assert;
 import org.junit.Test;
 import com.company.InputReader;
 import com.company.OutputReader;
-
+import java.nio.file.Paths;
 /**/
 
 public class IO_Test {
@@ -11,7 +11,7 @@ public class IO_Test {
 
 
     public boolean correctInputTest() {
-        InputReader ir = new InputReader("C:/Users/Tu/Desktop/tt_project/pipelinetest/inputtest.json");
+        InputReader ir = new InputReader(Paths.get(".").toAbsolutePath().normalize().toString()+ "/src/com/company/TT_Tests/IO_Tests/inputtest.json");
 
         if (!(ir.get_map_s_has_f().get(100L).contains("Algorithms 16_17") &&
                 ir.get_map_s_has_f().get(100L).contains("Algorithms 16_17") &&
@@ -47,8 +47,7 @@ public class IO_Test {
 
     public boolean correctOutputTest(){
         OutputReader or = new OutputReader();
-        or.readFile("C:/Users/Tu/Desktop/tt_project/pipelinetest/outputtest.json");
-
+        or.readFile(Paths.get(".").toAbsolutePath().normalize().toString()+ "/src/com/company/TT_Tests/IO_Tests/outputtest.json");
         if(! (  or.get_s_in_g().get(100L).contains(1L)&&
                 or.get_s_in_g().get(100L).contains(2L))){
 
