@@ -9,8 +9,8 @@ import java.util.Map;
 * - schreibe testfälle für die Pipelines (korrekte eingabe und ausgabe!)
 * - schreibe testfälle um die Korrektheit des TimeTableValidators zu bestätigen.
 *
-    // ein Student darf sich nur 1x in einer Gruppe befinden.
-    // eine Gruppe darf sich nur in genau 1 Zeitslot befinden.
+    // ein Student darf sich nur 1x in einer Gruppe befinden. muss nicht überprüft werden, wegen Hash-Datenstruktur
+    // eine Gruppe darf sich nur in genau 1 Zeitslot befinden. muss nicht überprüft werden wegen Hash-Datenstruktur!
 * */
 
 public class TimeTableValidator {
@@ -87,7 +87,6 @@ public class TimeTableValidator {
         }
         return true;
     }
-
 
     public boolean check_s_rej_t_condition(){
 

@@ -12,8 +12,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+
+
 public class InputReader {
 
+    // mapping zwischen konkreten studenten id und index für den Solver!
     private Map<Long,Integer> all_students;
     private Map<String,Integer> all_timeslots;
     private Map<String,Integer> all_subjects;
@@ -155,6 +158,8 @@ public class InputReader {
     }
 
 
+    // in der JSON müssen unter timeslots: ALLE timeslots existieren (s_rejects_t darf keinen timeslot ansprechen
+    // welcher nicht unter timeslots aufgelistet ist)
     private void read_s_rejects_t(JSONObject jObject){
         s_rejects_t = new int[all_students.size()][all_timeslots.size()];
         for(int i=0; i<all_students.size();i++){
