@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="32e861ee-f99f-4d7a-b13d-71396187b535" name="Default" comment="IO testdateien hinzugefügt.">
+    <list default="true" id="32e861ee-f99f-4d7a-b13d-71396187b535" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/TT_Tests/IO_Test.java" afterPath="$PROJECT_DIR$/src/com/company/TT_Tests/IO_Tests/IO_Test.java" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/TT_Tests/inputtest.json" afterPath="$PROJECT_DIR$/src/com/company/TT_Tests/IO_Tests/inputtest.json" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/TT_Tests/outputtest.json" afterPath="$PROJECT_DIR$/src/com/company/TT_Tests/IO_Tests/outputtest.json" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -30,8 +27,8 @@
       <file leaf-file-name="IO_Test.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/company/TT_Tests/IO_Tests/IO_Test.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+            <state relative-caret-position="136">
+              <caret line="8" column="22" lean-forward="true" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2771#2772#0" expanded="true" />
@@ -512,7 +509,14 @@
       <option name="project" value="LOCAL" />
       <updated>1528570801828</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Testordner angelegt.">
+      <created>1528571643121</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1528571643121</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -597,7 +601,8 @@
     <MESSAGE value="Neuer Constraint und Testfälle" />
     <MESSAGE value="IO Test Implementierung" />
     <MESSAGE value="IO testdateien hinzugefügt." />
-    <option name="LAST_COMMIT_MESSAGE" value="IO testdateien hinzugefügt." />
+    <MESSAGE value="Testordner angelegt." />
+    <option name="LAST_COMMIT_MESSAGE" value="Testordner angelegt." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1111,8 +1116,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/TT_Tests/IO_Tests/IO_Test.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        <state relative-caret-position="136">
+          <caret line="8" column="22" lean-forward="true" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2771#2772#0" expanded="true" />
