@@ -14,11 +14,11 @@ public class Main {
 
     // Anmerkung: Inputreader und Outputreader haben unterschiedliche lese/schreib Aufrufe
     public static void capsulatedModel(){
-        InputReader ir = new InputReader("C:/Users/Tu/Desktop/tt_project/tt_input2.json");
+        InputReader ir = new InputReader("C:/Users/Tu/Desktop/tt_project/performancetest/tt_input.json");
         TT_Solver solver = new TT_Solver(ir);
         MappedSolution mc = solver.solve();
         OutputWriter ow = new OutputWriter(mc,ir);
-        ow.writeInJSON("C:/Users/Tu/Desktop/tt_project/tt_output.json");
+        ow.writeInJSON("C:/Users/Tu/Desktop/tt_project/performancetest/tt_output.json");
         OutputReader or = new OutputReader();
         or.readFile("C:/Users/Tu/Desktop/tt_project/tt_output.json");
         //TimeTableValidator ttv = new TimeTableValidator(ir,or);

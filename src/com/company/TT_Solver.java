@@ -24,6 +24,7 @@ import org.chocosolver.solver.variables.IntVar;
  *
  *
  *
+ *
  */
 
 public class TT_Solver {
@@ -41,7 +42,8 @@ public class TT_Solver {
 
     private int[][] student_rejects_timeslot;
     private int[][] student_has_subject;
-    private int[] group_of_subject = {0, 1, 2, 0, 1, 2, 0, 1, 2};
+    // Gruppenerstellung muss automatisiert werden!!!!!!
+    private int[] group_of_subject = {0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2};
     int[] subject_min_cap;
     int[] subject_max_cap;
 
@@ -58,7 +60,7 @@ public class TT_Solver {
         model = new Model("Timetable-Solver");
 
         STUDENTS = ir.getAllStudents().size();
-        GROUPS = 9;
+        GROUPS = 15;
         TIMESLOTS = ir.getAllTimeslots().size();
         SUBJECTS = ir.getAllSubjects().size();
 
@@ -119,9 +121,16 @@ public class TT_Solver {
     public MappedSolution solve() {
        // defineConstraints();
         useStaticConstraints();
+        long startTime = System.currentTimeMillis();
         Solution solution = model.getSolver().findSolution();
-        MappedSolution mc = new MappedSolution(solution.toString(),group_of_subject);
-        return mc;
+        System.out.println(solution.getIntVal(s_in_g[0][0]));
+        long stopTime = System.currentTimeMillis();
+        System.out.println("Elapsed time: " + (stopTime-startTime));
+        if(solution == null){
+            System.out.println("No Solution found");
+        }
+        MappedSolution emc = new MappedSolution(solution, this.s_in_g_of_sbj, this.s_in_g_in_t,this.s_in_g,this.s_has_sbj,this.g_of_sbj,this.g_in_t);
+        return emc;
 
     }
 
@@ -129,113 +138,18 @@ public class TT_Solver {
     private void useStaticConstraints(){
         TT_Constraints.abideGroupCapacity(model,s_in_g,g_of_sbj,sbj_max_cap,sbj_min_cap,STUDENTS,GROUPS,SUBJECTS);
         TT_Constraints.assignStudentToGroupAcordingToSubject(model,s_in_g_of_sbj,s_has_sbj,STUDENTS,GROUPS,SUBJECTS);
-        TT_Constraints.cancelNotPossibleTimeslotsPerStudent(model, s_in_g,s_rej_t,g_in_t,STUDENTS,GROUPS,TIMESLOTS);
+       // TT_Constraints.cancelNotPossibleTimeslotsPerStudent(model, s_in_g,s_rej_t,g_in_t,STUDENTS,GROUPS,TIMESLOTS);
         TT_Constraints.s_in_g_of_f_to_s_in_g(model,s_in_g_of_sbj,s_in_g,STUDENTS,GROUPS,SUBJECTS);
         TT_Constraints.s_in_g_to_s_in_g_of_f(model,s_in_g_of_sbj,s_in_g,g_of_sbj,STUDENTS,GROUPS,SUBJECTS);
+
         TT_Constraints.setStudentInSameTimeslotAsItsGroup(model,s_in_g_in_t,s_in_g,g_in_t,STUDENTS,GROUPS,TIMESLOTS);
         TT_Constraints.studentPerTimeslot(model, s_in_g_in_t,STUDENTS, GROUPS,TIMESLOTS);
-        TT_Constraints.studentInJustOneGroupPerSubject(model,s_in_g,g_of_sbj,STUDENTS,GROUPS,SUBJECTS);
+        TT_Constraints.studentInJustOneGroupPerSubject(model,s_in_g_of_sbj,STUDENTS,GROUPS,SUBJECTS);
     }
 
-    private void defineConstraints(){
-        //CONSTRAINTS!
-        // a) wenn student einem fach zugeordnet ist, dann befindet er sich in genau einer der Gruppen
-        // die diesem Fach zugeordnet sind
-        for (int s = 0; s < STUDENTS; s++) {
-            for (int g = 0; g < GROUPS; g++) {
-                for (int f = 0; f < SUBJECTS; f++) {
-                    IntVar[] abs = new IntVar[GROUPS];
-                    for (int i = 0; i < GROUPS; i++) {
-                        abs[i] = s_in_g_of_sbj[s][i][f];
-                    }
-                    model.ifThenElse(model.arithm(s_has_sbj[s][f], "=", 1), model.sum(abs, "=", 1),
-                            model.arithm(s_in_g_of_sbj[s][g][f], "=", 0));
-                }
-            }
-        }
 
-        //b) Wenn Student sich in einer Gruppe befindet und diese Gruppe auch dem entsprechenden Fach zugeordnet ist,
-        //dann befindet sich der Student s in der Gruppe g, welcher dem Fach f zugeordnet ist. Ansonsten nicht!
-        //(Denn jede Gruppe ist nur einem Fach zugeordnet, deshalb kann der Student keiner Gruppe zugeordnet sein,
-        //die einem anderen Fach zugeordnet ist!
-        for (int s = 0; s < STUDENTS; s++) {
-            for (int g = 0; g < GROUPS; g++) {
-                for (int f = 0; f < SUBJECTS; f++) {
-                    model.ifThenElse(model.and(model.arithm(s_in_g[s][g], "=", 1), model.arithm(g_of_sbj[g], "=", f)),
-                            model.arithm(s_in_g_of_sbj[s][g][f], "=", 1), model.arithm(s_in_g_of_sbj[s][g][f], "=", 0));
-                }
-
-            }
-        }
-
-        //c) Wenn sich ein Student in einer Gruppe befindet, die in einem Fachzugeordnet ist, dann befindet
-        // sie sich der Student auch in der Gruppe. (Beziehung zwischen s_ing_of_sbj und s_in_g festlegen,
-        // damit s_ing_of_sbj nur dann zutrifft, wenn auch s_in_g zutrifft und umgekehrt
-        for (int s = 0; s < STUDENTS; s++) {
-            for (int g = 0; g < GROUPS; g++) {
-                for (int f = 0; f < SUBJECTS; f++) {
-                    model.ifThen(model.arithm(s_in_g_of_sbj[s][g][f], "=", 1),
-                            model.arithm(s_in_g[s][g], "=", 1));
-                }
-            }
-        }
-
-        //d) Ein Student darf nur in einer Gruppe je Fach sich befinden!
-        for (int s = 0; s < STUDENTS; s++) {
-            for (int f = 0; f < SUBJECTS; f++) {
-                IntVar[] abs = new IntVar[GROUPS];
-                for (int i = 0; i < GROUPS; i++) {
-                    abs[i] = model.intVar(0, 1);
-                    model.ifThenElse(model.and(model.arithm(g_of_sbj[i], "=", f), model.arithm(s_in_g[s][i], "=", 1))
-                            , model.arithm(abs[i], "=", 1), model.arithm(abs[i], "=", 0));
-                }
-                model.sum(abs, "<=", 1).post();
-            }
-        }
-
-        //e) gruppenkapazitäten je Fach einhalten!
-        for(int s=0; s<STUDENTS;s++){
-            for(int g=0; g<GROUPS;g++){
-                IntVar[] abs = new IntVar[STUDENTS];
-                for (int i = 0; i < STUDENTS; i++) {
-                    abs[i] = s_in_g[i][g];
-                }
-                for(int f=0; f<SUBJECTS;f++){
-                    model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(g_of_sbj[g],"=",f)),
-                            model.sum(abs,"<=",sbj_max_cap[f]) );
-                    model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(g_of_sbj[g],"=",f)),
-                            model.sum(abs,">=",sbj_min_cap[f]) );
-                }
-            }
-
-        }
-
-        //f) wenn s_in_g dann auch s_in_g_in_t unter maximal einem timeslot
-        for (int s = 0; s < STUDENTS; s++) {
-            for (int g = 0; g < GROUPS; g++) {
-                IntVar[] abs = new IntVar[TIMESLOTS];
-                for (int i = 0; i < TIMESLOTS; i++) {
-                    abs[i] = s_in_g_in_t[s][g][i];
-                }
-                model.sum(abs, "<=", 1).post();
-                for (int t = 0; t < TIMESLOTS; t++) {
-                    model.ifThenElse(model.and(model.arithm(s_in_g[s][g], "=", 1),
-                            model.arithm(g_in_t[g], "=", t)),
-                            model.arithm(s_in_g_in_t[s][g][t], "=", 1),
-                            model.arithm(s_in_g_in_t[s][g][t], "=", 0));
-                }
-            }
-        }
-
-        //g) wenn Student einen Timeslot als nicht möglich markeirt hat, befindet er sich in keiner Gruppe in diesem Timeslot
-        for (int s = 0; s < STUDENTS; s++) {
-            for (int g = 0; g < GROUPS; g++) {
-                for (int t = 0; t < TIMESLOTS; t++) {
-                    model.ifThen(model.and(model.arithm(s_rej_t[s][t], "=", 1), model.arithm(g_in_t[g], "=", t)),
-                            model.arithm(s_in_g[s][g], "=", 0));
-                }
-            }
-        }
+    public IntVar[][][] get_s_in_g_of_sbj(){
+        return this.s_in_g_of_sbj;
     }
 
 }

@@ -26,13 +26,13 @@ public class OutputWriter {
     private Map<Integer,String> g_of_f_out = new HashMap<Integer,String>();
     private Map<Integer,String> g_in_t_out = new HashMap<Integer,String>();
 
-    public OutputWriter(MappedSolution sc, InputReader ir){
+    public OutputWriter(MappedSolution ms, InputReader ir){
         this.all_students = ir.getAllStudents();
         this.all_timeslots = ir.getAllTimeslots();
         this.all_subjects = ir.getAllSubjects();
-        this.s_in_g = sc.get_s_in_g();
-        this.g_of_f = sc.get_g_of_f();
-        this.g_in_t = sc.get_g_in_t();
+        this.s_in_g = ms.get_s_in_g();
+        this.g_of_f = ms.get_g_of_sbj();
+        this.g_in_t = ms.get_g_in_t();
     }
 
     public void writeInJSON(String path){

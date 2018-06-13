@@ -28,7 +28,6 @@ public class TT_Constraints {
     //die einem anderen Fach zugeordnet ist!
     public static void s_in_g_to_s_in_g_of_f(Model model, IntVar[][][] s_in_g_of_sbj, IntVar[][]s_in_g, IntVar[] g_of_sbj,
                                              int totalStudents, int totalGroups, int totalSubjects){
-
         for (int s = 0; s < totalStudents; s++) {
             for (int g = 0; g < totalGroups; g++) {
                 for (int f = 0; f < totalSubjects; f++) {
@@ -57,15 +56,13 @@ public class TT_Constraints {
     }
 
     //d) Ein Student darf nur in einer Gruppe je Fach sich befinden!
-    public static void studentInJustOneGroupPerSubject(Model model, IntVar[][]s_in_g, IntVar[]g_of_sbj,
+    public static void studentInJustOneGroupPerSubject(Model model, IntVar[][][]s_in_g_of_sbj,
                                                        int totalStudents, int totalGroups, int totalSubjects){
         for (int s = 0; s < totalStudents; s++) {
-            for (int f = 0; f < totalGroups; f++) {
+            for (int f = 0; f < totalSubjects; f++) {
                 IntVar[] abs = new IntVar[totalGroups];
                 for (int i = 0; i < totalGroups; i++) {
-                    abs[i] = model.intVar(0, 1);
-                    model.ifThenElse(model.and(model.arithm(g_of_sbj[i], "=", f), model.arithm(s_in_g[s][i], "=", 1))
-                            , model.arithm(abs[i], "=", 1), model.arithm(abs[i], "=", 0));
+                    abs[i] = s_in_g_of_sbj[s][i][f];
                 }
                 model.sum(abs, "<=", 1).post();
             }
@@ -76,18 +73,19 @@ public class TT_Constraints {
     //e) gruppenkapazitäten je Fach einhalten!
     public static void abideGroupCapacity(Model model, IntVar[][]s_in_g, IntVar[] g_of_sbj, IntVar[]sbj_max_cap, IntVar[]sbj_min_cap,
                                           int totalStudents, int totalGroups, int totalSubjects){
-        for(int s=0; s<totalStudents;s++){
+
             for(int g=0; g<totalGroups;g++){
                 IntVar[] abs = new IntVar[totalStudents];
                 for (int i = 0; i < totalStudents; i++) {
                     abs[i] = s_in_g[i][g];
                 }
-                for(int f=0; f<totalSubjects;f++){
-                    model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(g_of_sbj[g],"=",f)),
-                            model.sum(abs,"<=",sbj_max_cap[f]) );
-                    model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(g_of_sbj[g],"=",f)),
-                            model.sum(abs,">=",sbj_min_cap[f]) );
-                }
+                for(int s=0; s<totalStudents;s++){
+                    for(int f=0; f<totalSubjects;f++){
+                        model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(g_of_sbj[g],"=",f)),
+                                model.sum(abs,"<=",sbj_max_cap[f]) );
+                        model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(g_of_sbj[g],"=",f)),
+                                model.sum(abs,">=",sbj_min_cap[f]) );
+                    }
             }
         }
     }
@@ -97,11 +95,6 @@ public class TT_Constraints {
                                                           int totalStudents, int totalGroups, int totalTimeslots){
         for (int s = 0; s < totalStudents; s++) {
             for (int g = 0; g < totalGroups; g++) {
-                IntVar[] abs = new IntVar[totalTimeslots];
-                for (int i = 0; i < totalTimeslots; i++) {
-                    abs[i] = s_in_g_in_t[s][g][i];
-                }
-                model.sum(abs, "<=", 1).post();
                 for (int t = 0; t < totalTimeslots; t++) {
                     model.ifThenElse(model.and(model.arithm(s_in_g[s][g], "=", 1),
                             model.arithm(g_in_t[g], "=", t)),
@@ -120,7 +113,7 @@ public class TT_Constraints {
             for(int t =0; t<totalTimeslots; t++){
                 IntVar[] abs = new IntVar[totalGroups];
                 for(int i =0; i<totalGroups; i++){
-                   abs[i] = s_in_g_in_t[s][i][t];
+                    abs[i] = s_in_g_in_t[s][i][t];
                 }
                 model.sum(abs,"<=",1).post();
             }
@@ -143,5 +136,3 @@ public class TT_Constraints {
 
 
 }
-
-
