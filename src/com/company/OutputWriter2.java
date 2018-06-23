@@ -1,0 +1,103 @@
+package com.company;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.chocosolver.solver.variables.IntVar;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Map;
+import org.chocosolver.solver.Solution;
+
+public class OutputWriter2  {
+    private Map<Long,Integer> all_students;
+    private Map<String,Integer> all_timeslots;
+    private Map<String,Integer> all_subjects;
+    private Solution solution;
+
+    //die Keys der Maps sind die Indezies aus der Berechnungsmatrix (MappedSolution)
+    private IntVar[][] s_in_g;
+    private IntVar[] g_of_f;
+    private IntVar[] g_in_t;
+
+    public OutputWriter2(Solution solution,IntVar[][]s_in_g, IntVar[]g_of_f,IntVar[]g_in_t, InputReader ir){
+        this.all_students = ir.getAllStudents();
+        this.all_timeslots = ir.getAllTimeslots();
+        this.all_subjects = ir.getAllSubjects();
+        this.s_in_g = s_in_g;
+        this.g_of_f = g_of_f;
+        this.g_in_t = g_in_t;
+        this.solution = solution;
+    }
+
+    public void writeInJSON(String path){
+        JSONObject root = new JSONObject();
+        JSONArray s_in_g_list = new JSONArray();
+        JSONArray g_of_f_list = new JSONArray();
+        JSONArray g_in_t_list = new JSONArray();
+
+        //get real id's from students
+        for(Long s : all_students.keySet()){
+            //convert that id to index because, s_in_g works with indecies
+            int index = all_students.get(s);
+            for(int g=0; g<s_in_g[index].length;g++){
+                //check if under these indecies s is in g
+                if(solution.getIntVal(s_in_g[index][g])==1){
+                    JSONObject obj = new JSONObject();
+                    //if yes, write original student id and original group id into JSON-Object
+                    obj.put("s_id",new Long(s));
+                    obj.put("g_id", new Long(g));
+                    s_in_g_list.add(obj);
+                }
+            }
+        }
+
+        //get real id's from subjects
+        for(String f : all_subjects.keySet()){
+            //convert that id to index because g_of_f works with indecies
+            int index = all_subjects.get(f);
+            for(int g=0; g<g_of_f.length;g++){
+                //check if under these indecies g is of f
+                if(solution.getIntVal(g_of_f[g])==index){
+                    JSONObject obj = new JSONObject();
+                    //if yes, write original group id and subject id into JSON-Object
+                    obj.put("g_id", new Long(g));
+                    obj.put("f_id", f);
+                    g_of_f_list.add(obj);
+                }
+            }
+        }
+
+        //get real id's from timeslots
+        for(String t : all_timeslots.keySet()){
+            //convert that id to index because g_in_t works with indecies
+            int index = all_timeslots.get(t);
+            for(int g=0; g<g_in_t.length;g++){
+                //check if under these indecies g is of f
+                if(solution.getIntVal(g_in_t[g])==index){
+                    JSONObject obj = new JSONObject();
+                    //if yes, write original group id and timeslot id into JSON-Object
+                    obj.put("g_id", new Long(g));
+                    obj.put("t_id", t);
+                    g_in_t_list.add(obj);
+                }
+            }
+        }
+
+        root.put("s_in_g",s_in_g_list);
+        root.put("g_of_sbj",g_of_f_list);
+        root.put("g_in_t",g_in_t_list);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+
+        try (FileWriter file = new FileWriter(path)) {
+            //file.write(root.toJSONString());
+            file.write(gson.toJson(root));
+            file.flush();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+}
