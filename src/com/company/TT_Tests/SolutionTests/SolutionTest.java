@@ -22,9 +22,12 @@ public class SolutionTest {
 
     private InputReader inputdata;
     private OutputReader outputdata;
-    private static String input = Paths.get(".").toAbsolutePath().normalize().toString()+ "/src/com/company/TT_Tests/SolutionTests/tt_input.json";
-    private static String output = Paths.get(".").toAbsolutePath().normalize().toString()+ "/src/com/company/TT_Tests/SolutionTests/tt_output.json";
-   public void initializeIOReader(String inputPath, String outputPath){
+   // private static String input = Paths.get(".").toAbsolutePath().normalize().toString()+ "/src/com/company/TT_Tests/SolutionTests/tt_input.json";
+    //private static String output = Paths.get(".").toAbsolutePath().normalize().toString()+ "/src/com/company/TT_Tests/SolutionTests/tt_output.json";
+    private static String input = "C:/Users/Tu/Desktop/tt_project/performancetest/tt_input.json";
+    private static String output = "C:/Users/Tu/Desktop/tt_project/performancetest/tt_output.json";
+
+    public void initializeIOReader(String inputPath, String outputPath){
        this.inputdata = new InputReader(inputPath);
        this.outputdata = new OutputReader();
        outputdata.readFile(outputPath);
@@ -135,21 +138,27 @@ public class SolutionTest {
         Map<String,Integer> min_cap = inputdata.get_map_min_g_capacity();
         Map<String,Integer> max_cap = inputdata.get_map_max_g_capacity();
         Map<Long,String> g_of_sbj = outputdata.get_g_of_sbj();
-        Map<String,Integer> all_subjects = inputdata.getAllSubjects();
+        Map<Long,List<Long>> s_in_g= outputdata.get_s_in_g();
 
-        for(String sbj : all_subjects.keySet()){
-            int g_count =0;
-            for(Long g : g_of_sbj.keySet()){
-                if(g_of_sbj.containsKey(sbj)){
-                    g_count++;
+
+        // gehe alle gruppen durch
+        for(Long g : g_of_sbj.keySet()) {
+
+            int counter = 0;
+            //gehe alle studenten durch
+            for (Long s : s_in_g.keySet()) {
+                //zähle wie viele studenten in gruppe g sind
+                if(s_in_g.get(s).contains(g)){
+                    counter++;
                 }
-
             }
 
-            if(g_count<min_cap.get(sbj)){
+            if(counter > max_cap.get(g_of_sbj.get(g))){
+                System.out.println("Gruppe: "+g+" hat zu viele Studenten");
                 return false;
             }
-            if(g_count>max_cap.get(sbj)){
+
+            if(counter < min_cap.get(g_of_sbj.get(g))){
                 return false;
             }
         }
@@ -161,6 +170,7 @@ public class SolutionTest {
     @Test
     public void checkAllConstraints(){
        initializeIOReader(input,output);
+       checkGroupCapacityCondition();
        Assert.assertTrue(check_s_has_f_condition());
        Assert.assertTrue(check_s_rej_t_condition());
        Assert.assertTrue(checkGroupCapacityCondition());

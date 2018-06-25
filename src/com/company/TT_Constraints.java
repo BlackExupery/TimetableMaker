@@ -63,8 +63,10 @@ public class TT_Constraints {
                 IntVar[] abs = new IntVar[totalGroups];
                 for (int i = 0; i < totalGroups; i++) {
                     abs[i] = s_in_g_of_sbj[s][i][f];
+                    model.sum(s_in_g_of_sbj[s][i], "<=", 1).post();
                 }
                 model.sum(abs, "<=", 1).post();
+
             }
         }
     }
@@ -74,18 +76,18 @@ public class TT_Constraints {
     public static void abideGroupCapacity(Model model, IntVar[][]s_in_g, IntVar[] g_of_sbj, IntVar[]sbj_max_cap, IntVar[]sbj_min_cap,
                                           int totalStudents, int totalGroups, int totalSubjects){
 
-            for(int g=0; g<totalGroups;g++){
-                IntVar[] abs = new IntVar[totalStudents];
-                for (int i = 0; i < totalStudents; i++) {
-                    abs[i] = s_in_g[i][g];
+        for(int g=0; g<totalGroups;g++){
+            IntVar[] abs = new IntVar[totalStudents];
+            for (int i = 0; i < totalStudents; i++) {
+                abs[i] = s_in_g[i][g];
+            }
+            for(int s=0; s<totalStudents;s++){
+                for(int f=0; f<totalSubjects;f++){
+                    model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(g_of_sbj[g],"=",f)),
+                            model.sum(abs,"<=",sbj_max_cap[f]) );
+                    model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(g_of_sbj[g],"=",f)),
+                            model.sum(abs,">=",sbj_min_cap[f]) );
                 }
-                for(int s=0; s<totalStudents;s++){
-                    for(int f=0; f<totalSubjects;f++){
-                        model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(g_of_sbj[g],"=",f)),
-                                model.sum(abs,"<=",sbj_max_cap[f]) );
-                        model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),model.arithm(g_of_sbj[g],"=",f)),
-                                model.sum(abs,">=",sbj_min_cap[f]) );
-                    }
             }
         }
     }
@@ -114,6 +116,7 @@ public class TT_Constraints {
                 IntVar[] abs = new IntVar[totalGroups];
                 for(int i =0; i<totalGroups; i++){
                     abs[i] = s_in_g_in_t[s][i][t];
+                    model.sum(s_in_g_in_t[s][i], "<=", 1).post();
                 }
                 model.sum(abs,"<=",1).post();
             }

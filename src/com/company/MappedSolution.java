@@ -5,13 +5,7 @@ import org.chocosolver.solver.variables.IntVar;
 
 import java.util.HashMap;
 import java.util.Map;
-import com.company.TT_Solver;
-import org.chocosolver.solver.Solution;
-import org.chocosolver.solver.variables.IntVar;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class MappedSolution {
 

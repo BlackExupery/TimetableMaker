@@ -1,14 +1,19 @@
 package com.company;
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.Solution;
+import org.chocosolver.solver.Solver;
+import org.chocosolver.solver.search.loop.lns.neighbors.INeighbor;
+import org.chocosolver.solver.search.loop.lns.neighbors.RandomNeighborhood;
 import org.chocosolver.solver.variables.IntVar;
 
+import static org.chocosolver.solver.search.strategy.Search.activityBasedSearch;
+
 /*
-* TO DO'S
-*- Gruppenanzahl muss geschätzt werden.
-*
-*
-* */
+ * TO DO'S
+ *- Gruppenanzahl muss geschätzt werden.
+ *
+ *
+ * */
 
 
 /**
@@ -47,6 +52,8 @@ public class TT_Solver {
     int[] subject_min_cap;
     int[] subject_max_cap;
 
+    private InputReader myIr;
+    private Solution solution;
     private int STUDENTS;
     private int GROUPS;
     private int TIMESLOTS;
@@ -58,7 +65,7 @@ public class TT_Solver {
 
         /*Reguläre Variablen*/
         model = new Model("Timetable-Solver");
-
+        myIr = ir;
         STUDENTS = ir.getAllStudents().size();
         GROUPS = 15;
         TIMESLOTS = ir.getAllTimeslots().size();
@@ -119,13 +126,18 @@ public class TT_Solver {
     }
 
     public MappedSolution solve() {
-       // defineConstraints();
+        // defineConstraints();
         useStaticConstraints();
         long startTime = System.currentTimeMillis();
-        Solution solution = model.getSolver().findSolution();
-        System.out.println(solution.getIntVal(s_in_g[0][0]));
+        Solver slver = model.getSolver();
+        //model.getSolver().limitTime("3600s");
+        //INeighbor neighbor = new RandomNeighborhood(model.retrieveIntVars(true),200,123456L);
+        //model.getSolver().setLNS(neighbor);
+        slver.limitTime("10s");
+        solution = model.getSolver().findSolution();
         long stopTime = System.currentTimeMillis();
         System.out.println("Elapsed time: " + (stopTime-startTime));
+        model.getSolver().printStatistics();
         if(solution == null){
             System.out.println("No Solution found");
         }
@@ -134,11 +146,32 @@ public class TT_Solver {
 
     }
 
+    public void solve2(){
+        useStaticConstraints();
+        long startTime = System.currentTimeMillis();
+        //model.getSolver().limitTime("3600s");
+        //INeighbor neighbor = new RandomNeighborhood(model.retrieveIntVars(true),200,123456L);
+        //model.getSolver().setLNS(neighbor);
+        model.getSolver().limitTime("180s");
+        model.getSolver().setSearch(activityBasedSearch(model.retrieveIntVars(true)));
+        Solution solution = model.getSolver().findSolution();
+
+
+        long stopTime = System.currentTimeMillis();
+        System.out.println("Elapsed time: " + (stopTime-startTime));
+        model.getSolver().printStatistics();
+        if(solution == null){
+            System.out.println("No Solution found");
+        }
+        OutputWriter2 ow = new OutputWriter2(solution,s_in_g,g_of_sbj,g_in_t,myIr);
+        ow.writeInJSON("C:/Users/Tu/Desktop/tt_project/performancetest/tt_output.json");
+    }
+
 
     private void useStaticConstraints(){
         TT_Constraints.abideGroupCapacity(model,s_in_g,g_of_sbj,sbj_max_cap,sbj_min_cap,STUDENTS,GROUPS,SUBJECTS);
         TT_Constraints.assignStudentToGroupAcordingToSubject(model,s_in_g_of_sbj,s_has_sbj,STUDENTS,GROUPS,SUBJECTS);
-       // TT_Constraints.cancelNotPossibleTimeslotsPerStudent(model, s_in_g,s_rej_t,g_in_t,STUDENTS,GROUPS,TIMESLOTS);
+        // TT_Constraints.cancelNotPossibleTimeslotsPerStudent(model, s_in_g,s_rej_t,g_in_t,STUDENTS,GROUPS,TIMESLOTS);
         TT_Constraints.s_in_g_of_f_to_s_in_g(model,s_in_g_of_sbj,s_in_g,STUDENTS,GROUPS,SUBJECTS);
         TT_Constraints.s_in_g_to_s_in_g_of_f(model,s_in_g_of_sbj,s_in_g,g_of_sbj,STUDENTS,GROUPS,SUBJECTS);
 
@@ -148,8 +181,5 @@ public class TT_Solver {
     }
 
 
-    public IntVar[][][] get_s_in_g_of_sbj(){
-        return this.s_in_g_of_sbj;
-    }
 
 }
