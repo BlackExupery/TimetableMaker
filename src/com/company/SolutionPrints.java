@@ -1,11 +1,11 @@
 package com.company;
 
 
-public class SolutionOutput {
+public class SolutionPrints {
 
     private String solution;
 
-    public SolutionOutput(String s){
+    public SolutionPrints(String s){
         this.solution = s;
     }
 

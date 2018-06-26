@@ -1,9 +1,6 @@
 package com.company;
 import org.chocosolver.solver.Model;
 import org.chocosolver.solver.Solution;
-import org.chocosolver.solver.Solver;
-import org.chocosolver.solver.search.loop.lns.neighbors.INeighbor;
-import org.chocosolver.solver.search.loop.lns.neighbors.RandomNeighborhood;
 import org.chocosolver.solver.variables.IntVar;
 
 import static org.chocosolver.solver.search.strategy.Search.activityBasedSearch;
@@ -125,34 +122,10 @@ public class TT_Solver {
         }
     }
 
-    public MappedSolution solve() {
-        // defineConstraints();
+    public void solve(String timeLimit){
         useStaticConstraints();
         long startTime = System.currentTimeMillis();
-        Solver slver = model.getSolver();
-        //model.getSolver().limitTime("3600s");
-        //INeighbor neighbor = new RandomNeighborhood(model.retrieveIntVars(true),200,123456L);
-        //model.getSolver().setLNS(neighbor);
-        slver.limitTime("10s");
-        solution = model.getSolver().findSolution();
-        long stopTime = System.currentTimeMillis();
-        System.out.println("Elapsed time: " + (stopTime-startTime));
-        model.getSolver().printStatistics();
-        if(solution == null){
-            System.out.println("No Solution found");
-        }
-        MappedSolution emc = new MappedSolution(solution, this.s_in_g_of_sbj, this.s_in_g_in_t,this.s_in_g,this.s_has_sbj,this.g_of_sbj,this.g_in_t);
-        return emc;
-
-    }
-
-    public void solve2(){
-        useStaticConstraints();
-        long startTime = System.currentTimeMillis();
-        //model.getSolver().limitTime("3600s");
-        //INeighbor neighbor = new RandomNeighborhood(model.retrieveIntVars(true),200,123456L);
-        //model.getSolver().setLNS(neighbor);
-        model.getSolver().limitTime("180s");
+        model.getSolver().limitTime(timeLimit);
         model.getSolver().setSearch(activityBasedSearch(model.retrieveIntVars(true)));
         Solution solution = model.getSolver().findSolution();
 
@@ -163,7 +136,7 @@ public class TT_Solver {
         if(solution == null){
             System.out.println("No Solution found");
         }
-        OutputWriter2 ow = new OutputWriter2(solution,s_in_g,g_of_sbj,g_in_t,myIr);
+        OutputWriter ow = new OutputWriter(solution,s_in_g,g_of_sbj,g_in_t,myIr);
         ow.writeInJSON("C:/Users/Tu/Desktop/tt_project/performancetest/tt_output.json");
     }
 
