@@ -25,6 +25,7 @@ public class InputReader {
     private Map<Long,List<String>> map_s_rejects_t = new HashMap<Long,List<String>>();
     private Map<String,Integer> map_min_g_capacity = new HashMap<String, Integer>();
     private Map<String,Integer> map_max_g_capacity = new HashMap<String,Integer>();
+    private Map<String, Integer> numbersOfGroupsPerSubject = new HashMap<String, Integer>();
     private int [] min_g_capacity;
     private int [] max_g_capacity;
     private int [][] s_has_f;
@@ -48,6 +49,7 @@ public class InputReader {
             read_s_has_f(jsonObject);
             read_s_rejects_t(jsonObject);
             read_g_capacity(jsonObject);
+            readGroupNumbersPerSubject(jsonObject);
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -102,6 +104,17 @@ public class InputReader {
 
     public Map<Long, List<String>> get_map_s_rejects_t() {
         return map_s_rejects_t;
+    }
+
+    public int[] getAllGroups(){
+        List<Integer> output = new LinkedList<Integer>();
+
+        for(String s : numbersOfGroupsPerSubject.keySet()){
+            for(int i=0; i<numbersOfGroupsPerSubject.get(s);i++){
+                output.add(all_subjects.get(s));
+            }
+        }
+        return output.stream().mapToInt(i->i).toArray();
     }
 
     public void printContent(){
@@ -219,6 +232,18 @@ public class InputReader {
                 all_subjects.put((String)subject.get("id"), id_index);
                 id_index++;
             }
+        }
+    }
+
+    private void readGroupNumbersPerSubject(JSONObject jObject){
+        JSONArray subjects = (JSONArray) jObject.get("subjects");
+
+        for(int i=0; i<subjects.size();i++){
+            JSONObject subject = (JSONObject)subjects.get(i);
+            String sbj_id = (String)subject.get("id");
+            int groupNumbers = Math.toIntExact((Long) subject.get("group_numbers"));
+            this.numbersOfGroupsPerSubject.put(sbj_id,groupNumbers);
+
         }
     }
 }

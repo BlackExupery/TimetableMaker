@@ -24,7 +24,7 @@ public class SolutionTest {
     private OutputReader outputdata;
    // private static String input = Paths.get(".").toAbsolutePath().normalize().toString()+ "/src/com/company/TT_Tests/SolutionTests/tt_input.json";
     //private static String output = Paths.get(".").toAbsolutePath().normalize().toString()+ "/src/com/company/TT_Tests/SolutionTests/tt_output.json";
-    private static String input = "C:/Users/Tu/Desktop/tt_project/performancetest/tt_input.json";
+    private static String input = "C:/Users/Tu/Desktop/tt_project/performancetest/tt_input5sbj.json";
     private static String output = "C:/Users/Tu/Desktop/tt_project/performancetest/tt_output.json";
 
     public void initializeIOReader(String inputPath, String outputPath){

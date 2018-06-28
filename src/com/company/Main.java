@@ -4,7 +4,7 @@ import org.chocosolver.solver.Solution;
 import org.chocosolver.solver.variables.IntVar;
 
 
-//anmerkung: constraint, dass eine Gruppe entweder 0 oder min_capazität einhält ist noch nicht implementiert
+//Annmerkung: constraint, dass eine Gruppe entweder 0 oder min_capazität einhält ist noch nicht implementiert
 
 public class Main {
 
@@ -14,9 +14,9 @@ public class Main {
 
     // Anmerkung: Inputreader und Outputreader haben unterschiedliche lese/schreib Aufrufe
     public static void capsulatedModel(){
-        InputReader ir = new InputReader("C:/Users/Tu/Desktop/tt_project/performancetest/tt_input.json");
+        InputReader ir = new InputReader("C:/Users/Tu/Desktop/tt_project/performancetest/tt_input5sbj.json");
         TT_Solver solver = new TT_Solver(ir);
-        solver.solve("180s");
+        solver.solve("900s");
         //MappedSolution mc = solver.solve();
         //OutputWriter ow = new OutputWriter(mc,ir);
         //ow.writeInJSON("C:/Users/Tu/Desktop/tt_project/performancetest/tt_output.json");

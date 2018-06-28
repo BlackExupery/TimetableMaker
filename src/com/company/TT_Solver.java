@@ -24,9 +24,6 @@ import static org.chocosolver.solver.search.strategy.Search.activityBasedSearch;
  *
  * - Bin zufrieden mit den Einlesevorgang. (VariablenNamen umbenennen.)
  *
- *
- *
- *
  */
 
 public class TT_Solver {
@@ -45,7 +42,7 @@ public class TT_Solver {
     private int[][] student_rejects_timeslot;
     private int[][] student_has_subject;
     // Gruppenerstellung muss automatisiert werden!!!!!!
-    private int[] group_of_subject = {0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2};
+    private int[] group_of_subject ;//= {0,0,0,0,0,1,1,1,1,1,2,2,2,2,2,4,4,4,4,4,3,3,3,3,3};
     int[] subject_min_cap;
     int[] subject_max_cap;
 
@@ -64,12 +61,14 @@ public class TT_Solver {
         model = new Model("Timetable-Solver");
         myIr = ir;
         STUDENTS = ir.getAllStudents().size();
-        GROUPS = 15;
+
         TIMESLOTS = ir.getAllTimeslots().size();
         SUBJECTS = ir.getAllSubjects().size();
 
         subject_min_cap = ir.get_min_g_capacity();
         subject_max_cap = ir.get_max_g_capacity();
+        group_of_subject = ir.getAllGroups();
+        GROUPS = group_of_subject.length;
 
         s_in_g_of_sbj = new IntVar[STUDENTS][GROUPS][SUBJECTS];
         s_in_g = new IntVar[STUDENTS][GROUPS];
@@ -108,6 +107,7 @@ public class TT_Solver {
         for (int i = 0; i < GROUPS; i++) {
             g_in_t[i] = model.intVar("%g_in_t[" + i + "]", 0, TIMESLOTS);
             g_of_sbj[i] = model.intVar("%g_of_f[" + i + "]", group_of_subject[i]);
+
         }
 
         for (int i = 0; i < STUDENTS; i++) {
