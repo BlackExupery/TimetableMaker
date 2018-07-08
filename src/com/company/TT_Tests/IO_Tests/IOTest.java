@@ -48,21 +48,21 @@ public class IOTest {
     public boolean correctOutputTest(){
         OutputReader or = new OutputReader();
         or.readFile(Paths.get(".").toAbsolutePath().normalize().toString()+ "/src/com/company/TT_Tests/IO_Tests/outputtest.json");
-        if(! (  or.get_s_in_g().get(100L).contains(1L)&&
-                or.get_s_in_g().get(100L).contains(2L))){
+        if(! (  or.get_map_s_in_g().get(100L).contains(1L)&&
+                or.get_map_s_in_g().get(100L).contains(2L))){
 
             System.out.println("Error in reading s_in_g relationship.");
             return false;
         }
 
-        if(! (  or.get_g_of_sbj().get(0L).equals("Algorithms 16_17")&&
-                or.get_g_of_sbj().get(1L).equals("Maths II. 16_17"))){
+        if(! (  or.get_map_g_of_sbj().get(0L).equals("Algorithms 16_17")&&
+                or.get_map_g_of_sbj().get(1L).equals("Maths II. 16_17"))){
             System.out.println("Error with reading g_of_sbj relationship.");
             return false;
         }
 
-        if(! (  or.get_g_in_t().get(0L).equals("Di 3.")&&
-                or.get_g_in_t().get(1L).equals("Di 4."))){
+        if(! (  or.get_map_g_in_t().get(0L).equals("Di 3.")&&
+                or.get_map_g_in_t().get(1L).equals("Di 4."))){
             System.out.println("Error with g_in_t relationship.");
             return false;
         }

@@ -145,7 +145,7 @@ public class InputReader {
     }
 
     private void readAllGroups(JSONObject jObject){
-        JSONArray groups = (JSONArray)jObject.get("g_of_sbj");
+        JSONArray groups = (JSONArray)jObject.get("groupOfSubject");
         int id_index =0;
         for(int i=0; i<groups.size();i++){
             JSONObject group = (JSONObject)groups.get(i);
@@ -230,7 +230,7 @@ public class InputReader {
     }
 
     private void read_g_of_sbj(JSONObject obj){
-        JSONArray j_g_of_sbj = (JSONArray) obj.get("g_of_sbj");
+        JSONArray j_g_of_sbj = (JSONArray) obj.get("groupOfSubject");
         this.g_of_sbj = new int[this.all_groups.size()];
         for(int i=0; i<j_g_of_sbj.size();i++){
             JSONObject gsbj = (JSONObject) j_g_of_sbj.get(i);

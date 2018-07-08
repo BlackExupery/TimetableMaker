@@ -44,20 +44,20 @@ public class OutputReader {
 
     }
 
-    public Map<Long,List<Long>> get_s_in_g(){
+    public Map<Long,List<Long>> get_map_s_in_g(){
         return this.s_in_g;
     }
 
-    public Map<Long,String> get_g_of_sbj(){
+    public Map<Long,String> get_map_g_of_sbj(){
         return this.g_of_sbj;
     }
 
-    public Map<Long, String> get_g_in_t() {
+    public Map<Long, String> get_map_g_in_t() {
         return g_in_t;
     }
 
     private void read_s_in_g(JSONObject obj){
-        JSONArray j_s_in_g = (JSONArray)obj.get("s_in_g");
+        JSONArray j_s_in_g = (JSONArray)obj.get("studentInGroup");
 
         for(int i=0; i<j_s_in_g.size();i++){
             JSONObject sg = (JSONObject)j_s_in_g.get(i);
@@ -70,7 +70,7 @@ public class OutputReader {
     }
 
     private void read_g_of_sbj(JSONObject obj){
-        JSONArray j_g_of_sbj = (JSONArray) obj.get("g_of_sbj");
+        JSONArray j_g_of_sbj = (JSONArray) obj.get("groupOfSubject");
 
         for(int i=0; i<j_g_of_sbj.size();i++){
             JSONObject gsbj = (JSONObject) j_g_of_sbj.get(i);
@@ -81,7 +81,7 @@ public class OutputReader {
     }
 
     private void read_g_in_t(JSONObject obj){
-        JSONArray j_g_in_t = (JSONArray) obj.get("g_in_t");
+        JSONArray j_g_in_t = (JSONArray) obj.get("groupInTimeslot");
 
         for(int i=0; i<j_g_in_t.size();i++){
             JSONObject gt = (JSONObject) j_g_in_t.get(i);

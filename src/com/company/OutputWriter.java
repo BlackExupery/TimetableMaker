@@ -84,9 +84,9 @@ public class OutputWriter {
             }
         }
 
-        root.put("s_in_g",s_in_g_list);
-        root.put("g_of_sbj",g_of_f_list);
-        root.put("g_in_t",g_in_t_list);
+        root.put("studentInGroup",s_in_g_list);
+        root.put("groupOfSubject",g_of_f_list);
+        root.put("groupInTimeslot",g_in_t_list);
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
 

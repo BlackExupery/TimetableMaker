@@ -4,10 +4,9 @@
     <list default="true" id="32e861ee-f99f-4d7a-b13d-71396187b535" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/com/company/InputReader.java" afterPath="$PROJECT_DIR$/src/com/company/InputReader.java" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/Main.java" afterPath="$PROJECT_DIR$/src/com/company/Main.java" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/OutputReader.java" afterPath="$PROJECT_DIR$/src/com/company/OutputReader.java" />
       <change beforePath="$PROJECT_DIR$/src/com/company/OutputWriter.java" afterPath="$PROJECT_DIR$/src/com/company/OutputWriter.java" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/TT_Constraints.java" afterPath="$PROJECT_DIR$/src/com/company/TT_Constraints.java" />
-      <change beforePath="$PROJECT_DIR$/src/com/company/TT_Solver.java" afterPath="$PROJECT_DIR$/src/com/company/TT_Solver.java" />
+      <change beforePath="$PROJECT_DIR$/src/com/company/TT_Tests/IO_Tests/IOTest.java" afterPath="$PROJECT_DIR$/src/com/company/TT_Tests/IO_Tests/IOTest.java" />
       <change beforePath="$PROJECT_DIR$/src/com/company/TT_Tests/SolutionTests/SolutionTest.java" afterPath="$PROJECT_DIR$/src/com/company/TT_Tests/SolutionTests/SolutionTest.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -20,11 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+            <state relative-caret-position="238">
+              <caret line="14" column="45" lean-forward="true" selection-start-line="14" selection-start-column="45" selection-end-line="14" selection-end-column="45" />
               <folding>
                 <element signature="e#198#199#0" expanded="true" />
                 <element signature="e#232#233#0" expanded="true" />
@@ -33,11 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="OutputWriter.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="OutputWriter.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/company/OutputWriter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-625">
-              <caret line="59" column="31" lean-forward="true" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
+            <state relative-caret-position="295">
+              <caret line="69" column="0" lean-forward="true" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -48,8 +47,8 @@
       <file leaf-file-name="InputReader.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/InputReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1802">
-              <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+            <state relative-caret-position="846">
+              <caret line="147" column="65" lean-forward="false" selection-start-line="147" selection-start-column="65" selection-end-line="147" selection-end-column="65" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1052#1066#0" expanded="true" />
@@ -61,8 +60,28 @@
       <file leaf-file-name="OutputReader.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/company/OutputReader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1105">
-              <caret line="81" column="0" lean-forward="true" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
+            <state relative-caret-position="0">
+              <caret line="73" column="0" lean-forward="true" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SolutionTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/company/TT_Tests/SolutionTests/SolutionTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="188">
+              <caret line="137" column="60" lean-forward="false" selection-start-line="137" selection-start-column="60" selection-end-line="137" selection-end-column="60" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="IOTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/company/TT_Tests/IO_Tests/IOTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="157">
+              <caret line="66" column="25" lean-forward="true" selection-start-line="66" selection-start-column="25" selection-end-line="66" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -79,9 +98,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>g_of_f</find>
-      <find>_g</find>
-      <find>System</find>
       <find>InputRea</find>
       <find>s_rej</find>
       <find>g_in_t</find>
@@ -109,6 +125,9 @@
       <find>readAllSt</find>
       <find>get_map_min</find>
       <find>getAll</find>
+      <find>g_of_sbj</find>
+      <find>get_s_in_g</find>
+      <find>get_g_in_t</find>
     </findStrings>
     <replaceStrings>
       <replace>sbj_max_cap</replace>
@@ -118,6 +137,7 @@
       <replace>totalSubjects</replace>
       <replace>s_in_sbj</replace>
       <replace>student_in_subject</replace>
+      <replace>get_map_g_in_t</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -134,7 +154,6 @@
         <option value="$PROJECT_DIR$/src/com/company/SolutionConverter.java" />
         <option value="$PROJECT_DIR$/src/com/company/SolutionMediator.java" />
         <option value="$PROJECT_DIR$/src/com/company/SolutionMapper_Test.java" />
-        <option value="$PROJECT_DIR$/src/com/company/OutputReader.java" />
         <option value="$PROJECT_DIR$/src/com/company/SolutionOutput.java" />
         <option value="$PROJECT_DIR$/src/com/company/TimeTableValidator.java" />
         <option value="$PROJECT_DIR$/src/com/company/TT_Tests/tt_testinput.json" />
@@ -148,16 +167,18 @@
         <option value="$PROJECT_DIR$/src/com/company/MappedSolution.java" />
         <option value="$PROJECT_DIR$/src/com/company/TT_Tests/OutputWriter2.java" />
         <option value="$PROJECT_DIR$/src/com/company/OutputWriter2.java" />
-        <option value="$PROJECT_DIR$/src/com/company/TT_Tests/SolutionTests/SolutionTest.java" />
         <option value="$PROJECT_DIR$/src/com/company/TT_Constraints2.java" />
         <option value="$PROJECT_DIR$/src/com/company/TT_Solver2.java" />
         <option value="$PROJECT_DIR$/src/ChocoExample.java" />
         <option value="$PROJECT_DIR$/src/com/company/TT_Constraints.java" />
         <option value="$PROJECT_DIR$/src/com/company/SolutionPrints.java" />
         <option value="$PROJECT_DIR$/src/com/company/Main.java" />
-        <option value="$PROJECT_DIR$/src/com/company/OutputWriter.java" />
         <option value="$PROJECT_DIR$/src/com/company/TT_Solver.java" />
+        <option value="$PROJECT_DIR$/src/com/company/OutputWriter.java" />
         <option value="$PROJECT_DIR$/src/com/company/InputReader.java" />
+        <option value="$PROJECT_DIR$/src/com/company/TT_Tests/SolutionTests/SolutionTest.java" />
+        <option value="$PROJECT_DIR$/src/com/company/TT_Tests/IO_Tests/IOTest.java" />
+        <option value="$PROJECT_DIR$/src/com/company/OutputReader.java" />
       </list>
     </option>
   </component>
@@ -258,7 +279,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Android JUnit.SolutionTest">
     <configuration name="IOTest" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -399,8 +420,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Application.Main" />
-        <item index="1" class="java.lang.String" itemvalue="Android JUnit.SolutionTest" />
+        <item index="0" class="java.lang.String" itemvalue="Android JUnit.SolutionTest" />
+        <item index="1" class="java.lang.String" itemvalue="Application.Main" />
         <item index="2" class="java.lang.String" itemvalue="Android JUnit.IOTest" />
         <item index="3" class="java.lang.String" itemvalue="JUnit.SolutionTest.checkAllConstraints" />
         <item index="4" class="java.lang.String" itemvalue="Android JUnit.SolutionTest.checkAllConstraints" />
@@ -645,16 +666,17 @@
       <option name="project" value="LOCAL" />
       <updated>1530182677989</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="InputReader verändert.">
+      <created>1531074039756</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1531074039756</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="SolutionTest - 2018.06.25 at 15h 10m 08s.xml">
-      <configuration name="SolutionTest" configurationId="AndroidJUnit" />
-    </history-entry>
-    <history-entry file="SolutionTest - 2018.06.27 at 18h 27m 27s.xml">
-      <configuration name="SolutionTest" configurationId="AndroidJUnit" />
-    </history-entry>
     <history-entry file="SolutionTest - 2018.06.27 at 18h 28m 03s.xml">
       <configuration name="SolutionTest" configurationId="AndroidJUnit" />
     </history-entry>
@@ -676,6 +698,12 @@
     <history-entry file="SolutionTest - 2018.07.07 at 11h 35m 40s.xml">
       <configuration name="SolutionTest" configurationId="AndroidJUnit" />
     </history-entry>
+    <history-entry file="SolutionTest - 2018.07.08 at 20h 29m 23s.xml">
+      <configuration name="SolutionTest" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="SolutionTest - 2018.07.08 at 20h 30m 39s.xml">
+      <configuration name="SolutionTest" configurationId="AndroidJUnit" />
+    </history-entry>
     <history-entry file="SolutionTest_checkAllConstraints - 2018.06.13 at 16h 27m 51s.xml">
       <configuration name="SolutionTest.checkAllConstraints" configurationId="JUnit" />
     </history-entry>
@@ -692,7 +720,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32913387" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32913387" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -737,7 +765,8 @@
     <MESSAGE value="Vorläufige notwendige Änderungen:&#10;-Solutiontest Bugfix&#10;-neue Suchstrategie gewählt&#10;etc..." />
     <MESSAGE value="Refactorings" />
     <MESSAGE value="group_numbers per subject hinzugefügt als eingabeoption" />
-    <option name="LAST_COMMIT_MESSAGE" value="group_numbers per subject hinzugefügt als eingabeoption" />
+    <MESSAGE value="InputReader verändert." />
+    <option name="LAST_COMMIT_MESSAGE" value="InputReader verändert." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -1014,13 +1043,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/MappedSolution.java" />
-    <entry file="file://$PROJECT_DIR$/src/com/company/TT_Tests/IO_Tests/IOTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="125">
-          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/TT_Constraints2.java" />
     <entry file="file://$PROJECT_DIR$/src/com/company/TT_Solver2.java" />
     <entry file="file://$PROJECT_DIR$/src/ChocoExample.java">
@@ -1030,14 +1052,6 @@
           <folding>
             <element signature="imports" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/TT_Tests/SolutionTests/SolutionTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="19" column="0" lean-forward="false" selection-start-line="18" selection-start-column="4" selection-end-line="19" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1067,28 +1081,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/OutputReader.java">
+    <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1105">
-          <caret line="81" column="0" lean-forward="true" selection-start-line="81" selection-start-column="0" selection-end-line="81" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/OutputWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-625">
-          <caret line="59" column="31" lean-forward="true" selection-start-line="59" selection-start-column="31" selection-end-line="59" selection-end-column="31" />
+        <state relative-caret-position="238">
+          <caret line="14" column="45" lean-forward="true" selection-start-line="14" selection-start-column="45" selection-end-line="14" selection-end-column="45" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#198#199#0" expanded="true" />
+            <element signature="e#232#233#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/company/InputReader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1802">
-          <caret line="128" column="0" lean-forward="false" selection-start-line="128" selection-start-column="0" selection-end-line="128" selection-end-column="0" />
+        <state relative-caret-position="846">
+          <caret line="147" column="65" lean-forward="false" selection-start-line="147" selection-start-column="65" selection-end-line="147" selection-end-column="65" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1052#1066#0" expanded="true" />
@@ -1096,13 +1103,36 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/company/Main.java">
+    <entry file="file://$PROJECT_DIR$/src/com/company/TT_Tests/IO_Tests/IOTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+        <state relative-caret-position="157">
+          <caret line="66" column="25" lean-forward="true" selection-start-line="66" selection-start-column="25" selection-end-line="66" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/OutputReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="73" column="0" lean-forward="true" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/TT_Tests/SolutionTests/SolutionTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="137" column="60" lean-forward="false" selection-start-line="137" selection-start-column="60" selection-end-line="137" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/company/OutputWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="69" column="0" lean-forward="true" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
           <folding>
-            <element signature="e#198#199#0" expanded="true" />
-            <element signature="e#232#233#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

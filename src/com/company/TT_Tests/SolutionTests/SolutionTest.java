@@ -24,7 +24,7 @@ public class SolutionTest {
     private OutputReader outputdata;
    // private static String input = Paths.get(".").toAbsolutePath().normalize().toString()+ "/src/com/company/TT_Tests/SolutionTests/tt_input.json";
     //private static String output = Paths.get(".").toAbsolutePath().normalize().toString()+ "/src/com/company/TT_Tests/SolutionTests/tt_output.json";
-    private static String input = "C:/Users/Tu/Desktop/tt_project/performancetest/tt_input.json";
+    private static String input = "C:/Users/Tu/Desktop/tt_project/performancetest/tt_testinput.json";
     private static String output = "C:/Users/Tu/Desktop/tt_project/performancetest/tt_output.json";
 
     public void initializeIOReader(String inputPath, String outputPath){
@@ -37,8 +37,8 @@ public class SolutionTest {
     public boolean check_s_has_f_condition(){
 
         Map<Long,List<String>> s_has_f = inputdata.get_map_s_has_f();
-        Map<Long,List<Long>> s_in_g = outputdata.get_s_in_g();
-        Map<Long,String> g_of_sbj= outputdata.get_g_of_sbj();
+        Map<Long,List<Long>> s_in_g = outputdata.get_map_s_in_g();
+        Map<Long,String> g_of_sbj= outputdata.get_map_g_of_sbj();
 
         //gehe jeden studenten s durch
         for(Long s : s_has_f.keySet()){
@@ -74,8 +74,8 @@ public class SolutionTest {
 
     // ein Student darf sich nur in einer Gruppe je Zeitslot befinden.
     public boolean check_unique_studentassignment_per_timeslot(){
-        Map<Long,List<Long>> s_in_g = outputdata.get_s_in_g();
-        Map<Long,String> g_in_t = outputdata.get_g_in_t();
+        Map<Long,List<Long>> s_in_g = outputdata.get_map_s_in_g();
+        Map<Long,String> g_in_t = outputdata.get_map_g_in_t();
 
         //gehe jeden Studenten durch
         for(Long s : s_in_g.keySet()){
@@ -102,8 +102,8 @@ public class SolutionTest {
     public boolean check_s_rej_t_condition(){
 
         Map<Long,List<String>> s_rej_t = inputdata.get_map_s_rejects_t();
-        Map<Long,List<Long>> s_in_g = outputdata.get_s_in_g();
-        Map<Long,String> g_in_t= outputdata.get_g_in_t();
+        Map<Long,List<Long>> s_in_g = outputdata.get_map_s_in_g();
+        Map<Long,String> g_in_t= outputdata.get_map_g_in_t();
 
         //gehe jeden studenten s durch
         for(Long s : s_rej_t.keySet()){
@@ -137,8 +137,8 @@ public class SolutionTest {
     public boolean checkGroupCapacityCondition(){
         Map<String,Integer> min_cap = inputdata.get_map_min_g_capacity();
         Map<String,Integer> max_cap = inputdata.get_map_max_g_capacity();
-        Map<Long,String> g_of_sbj = outputdata.get_g_of_sbj();
-        Map<Long,List<Long>> s_in_g= outputdata.get_s_in_g();
+        Map<Long,String> g_of_sbj = outputdata.get_map_g_of_sbj();
+        Map<Long,List<Long>> s_in_g= outputdata.get_map_s_in_g();
 
 
         // gehe alle gruppen durch
