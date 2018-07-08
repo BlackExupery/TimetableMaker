@@ -115,6 +115,17 @@ public class TT_Solver {
             }
         }
 
+        // if s_in_g is given in input
+        if(ir.get_map_s_in_g().size()>0){
+            for(Long s_id : ir.get_map_s_in_g().keySet()){
+                int s_index = ir.getAllStudents().get(s_id);
+                for(Long g_id : ir.get_map_s_in_g().get(s_id)){
+                    int g_index = ir.getAllGroups().get(g_id);
+                    s_in_g[s_index][g_index] = model.intVar("%s_in_g[" + s_index + "][" + g_index + "]", 1);
+                }
+            }
+        }
+
         // s_in_g_in_t
         for (int i = 0; i < totalStudents; i++) {
             for (int j = 0; j < totalGroups; j++) {
@@ -134,6 +145,15 @@ public class TT_Solver {
         // g_in_t
         for (int i = 0; i < totalGroups; i++) {
             g_in_t[i] = model.intVar("%g_in_t[" + i + "]", 0, totalTimeslots);
+        }
+
+        // if g_in_t is given in input
+        if(ir.get_map_g_in_t().size()>0){
+            for(Long g_id : ir.get_map_g_in_t().keySet()){
+                int g_index = ir.getAllGroups().get(g_id);
+                int t_index = ir.getAllTimeslots().get(ir.get_map_g_in_t().get(g_id));
+                g_in_t[g_index] = model.intVar("%g_in_t[" + g_index + "]", t_index);
+            }
         }
 
         // g_of_sbj

@@ -12,8 +12,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-
-
 public class InputReader {
 
     // mapping zwischen konkreten studenten id und index für den Solver!
@@ -27,6 +25,9 @@ public class InputReader {
     private Map<String,Integer> map_min_g_capacity = new HashMap<String, Integer>();
     private Map<String,Integer> map_max_g_capacity = new HashMap<String,Integer>();
     private Map<Long, String> map_g_of_sbj = new HashMap<Long, String>();
+
+    private Map<Long,List<Long>> map_s_in_g = new HashMap<Long, List<Long>>();
+    private Map<Long,String> map_g_in_t = new HashMap<Long,String>();
 
     private int [] min_g_capacity;
     private int [] max_g_capacity;
@@ -117,6 +118,12 @@ public class InputReader {
     }
 
     public Map<Long, String> get_map_g_of_sbj(){return map_g_of_sbj;}
+
+    public Map<Long,List<Long>> get_map_s_in_g(){
+        return this.map_s_in_g;
+    }
+
+    public Map<Long, String> get_map_g_in_t() { return this.map_g_in_t;}
 
 
     public void printContent(){
@@ -263,6 +270,31 @@ public class InputReader {
             map_s_rejects_t.get(sid).add((String)ut.get("ts_id"));
         }
     }
+
+    private void read_s_in_g(JSONObject obj){
+        JSONArray j_s_in_g = (JSONArray)obj.get("studentInGroup");
+
+        for(int i=0; i<j_s_in_g.size();i++){
+            JSONObject sg = (JSONObject)j_s_in_g.get(i);
+            if(!this.map_s_in_g.containsKey((Long)sg.get("s_id"))){
+                this.map_s_in_g.put((Long)sg.get("s_id"),new LinkedList<Long>());
+            }
+            this.map_s_in_g.get((Long)sg.get("s_id")).add((Long)sg.get("g_id"));
+
+        }
+    }
+
+    private void read_g_in_t(JSONObject obj){
+        JSONArray j_g_in_t = (JSONArray) obj.get("groupInTimeslot");
+
+        for(int i=0; i<j_g_in_t.size();i++){
+            JSONObject gt = (JSONObject) j_g_in_t.get(i);
+            if(!this.map_g_in_t.containsKey((Long)gt.get("g_id"))){
+                this.map_g_in_t.put((Long)gt.get("g_id"),(String)gt.get("t_id"));
+            }
+        }
+    }
+
 
 
 
