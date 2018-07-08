@@ -17,15 +17,15 @@ public class OutputWriter {
 
     //die Keys der Maps sind die Indezies aus der Berechnungsmatrix (MappedSolution)
     private IntVar[][] s_in_g;
-    private IntVar[] g_of_f;
+    private int[] g_of_sbj;
     private IntVar[] g_in_t;
 
-    public OutputWriter(Solution solution, IntVar[][]s_in_g, IntVar[]g_of_f, IntVar[]g_in_t, InputReader ir){
+    public OutputWriter(Solution solution, IntVar[][]s_in_g, IntVar[]g_in_t, InputReader ir){
         this.all_students = ir.getAllStudents();
         this.all_timeslots = ir.getAllTimeslots();
         this.all_subjects = ir.getAllSubjects();
+        this.g_of_sbj  = ir.get_g_of_sbj();
         this.s_in_g = s_in_g;
-        this.g_of_f = g_of_f;
         this.g_in_t = g_in_t;
         this.solution = solution;
     }
@@ -56,9 +56,9 @@ public class OutputWriter {
         for(String f : all_subjects.keySet()){
             //convert that id to index because g_of_f works with indecies
             int index = all_subjects.get(f);
-            for(int g=0; g<g_of_f.length;g++){
+            for(int g=0; g<g_of_sbj.length;g++){
                 //check if under these indecies g is of f
-                if(solution.getIntVal(g_of_f[g])==index){
+                if(g_of_sbj[g]==index){
                     JSONObject obj = new JSONObject();
                     //if yes, write original group id and subject id into JSON-Object
                     obj.put("g_id", new Long(g));
