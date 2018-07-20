@@ -29,181 +29,183 @@ import static org.chocosolver.solver.search.strategy.Search.activityBasedSearch;
 public class TT_Solver {
 
     //Modellvariablen
-    private Model model;
-    private IntVar[][][] s_in_g_of_sbj;
-    private IntVar[][] s_in_g;
-    private IntVar[] g_in_t;
-    private IntVar[][][] s_in_g_in_t;
-    private IntVar[][] s_rej_t;
-    private IntVar[][] s_in_sbj;
-    private IntVar[] g_of_sbj;
-    private IntVar[] sbj_min_cap;
-    private IntVar[] sbj_max_cap;
+    //private Model model;
 
-    //Eingabevariablen
-    private int[][] student_rejects_timeslot;
-    private int[][] student_in_subject;
-    private int[] group_of_subject ;
-    int[] subject_min_cap;
-    int[] subject_max_cap;
+    private Solution current_solution;
+    private TT_Model model;
 
-    private InputReader inputReader;
-    private int totalStudents;
-    private int totalGroups;
-    private int totalTimeslots;
-    private int totalSubjects;
-
-    public TT_Solver(InputReader ir){
-
-        /*  INITIALISIERE VARIABLEN! */
-
-        /*Reguläre Variablen*/
-        model = new Model("Timetable-Solver");
-        inputReader = ir;
-        totalStudents = ir.getAllStudents().size();
-        totalTimeslots = ir.getAllTimeslots().size();
-        totalSubjects = ir.getAllSubjects().size();
-        totalGroups = ir.getAllGroups().size();
-
-        subject_min_cap = ir.get_min_g_capacity();
-        subject_max_cap = ir.get_max_g_capacity();
-        group_of_subject = ir.get_g_of_sbj();
-        student_rejects_timeslot = ir.get_s_rejects_t();
-        student_in_subject = ir.get_s_has_f();
-
-
-        s_in_g_of_sbj = new IntVar[totalStudents][totalGroups][totalSubjects];
-
-
-        s_in_g = new IntVar[totalStudents][totalGroups];
-
-
-        g_in_t = new IntVar[totalGroups];
-
-
-        s_in_g_in_t = new IntVar[totalStudents][totalGroups][totalTimeslots];
-
-
-        s_rej_t = new IntVar[totalStudents][totalTimeslots];
-
-
-        s_in_sbj = new IntVar[totalStudents][totalSubjects];
-
-
-        g_of_sbj = new IntVar[totalGroups];
-
-
-        sbj_min_cap = new IntVar[totalSubjects];
-
-
-        sbj_max_cap = new IntVar[totalSubjects];
-
-        /* Constraint-Variablen */
-        //s_in_g_of_sbj
-        for (int i = 0; i < totalStudents; i++) {
-            for (int j = 0; j < totalGroups; j++) {
-                for (int k = 0; k < totalSubjects; k++) {
-                    s_in_g_of_sbj[i][j][k] = model.intVar(
-                            "%s_ing_of_sbj[" + i + "][" + j + "][" + k + "]", 0, 1);
-                }
-            }
-        }
-        //s_in_g
-        for (int i = 0; i < totalStudents; i++) {
-            for (int j = 0; j < totalGroups; j++) {
-                s_in_g[i][j] = model.intVar("%s_in_g[" + i + "][" + j + "]", 0, 1);
-            }
-        }
-
-        // if s_in_g is given in input
-        if(ir.get_map_s_in_g().size()>0){
-            for(Long s_id : ir.get_map_s_in_g().keySet()){
-                int s_index = ir.getAllStudents().get(s_id);
-                for(Long g_id : ir.get_map_s_in_g().get(s_id)){
-                    int g_index = ir.getAllGroups().get(g_id);
-                    s_in_g[s_index][g_index] = model.intVar("%s_in_g[" + s_index + "][" + g_index + "]", 1);
-                }
-            }
-        }
-
-        // s_in_g_in_t
-        for (int i = 0; i < totalStudents; i++) {
-            for (int j = 0; j < totalGroups; j++) {
-                for (int k = 0; k < totalTimeslots; k++) {
-                    s_in_g_in_t[i][j][k] = model.intVar(
-                            "%s_in_g_in_t[" + i + "][" + j + "][" + k + "]", 0, 1);
-                }
-            }
-        }
-        // s_rej_t
-        for (int i = 0; i < totalStudents; i++) {
-            for (int j = 0; j < totalTimeslots; j++) {
-                s_rej_t[i][j] = model.intVar(
-                        "%s_rej_t[" + i + "][" + j + "]", student_rejects_timeslot[i][j]);
-            }
-        }
-        // g_in_t
-        for (int i = 0; i < totalGroups; i++) {
-            g_in_t[i] = model.intVar("%g_in_t[" + i + "]", 0, totalTimeslots);
-        }
-
-        // if g_in_t is given in input
-        if(ir.get_map_g_in_t().size()>0){
-            for(Long g_id : ir.get_map_g_in_t().keySet()){
-                int g_index = ir.getAllGroups().get(g_id);
-                int t_index = ir.getAllTimeslots().get(ir.get_map_g_in_t().get(g_id));
-                g_in_t[g_index] = model.intVar("%g_in_t[" + g_index + "]", t_index);
-            }
-        }
-
-        // g_of_sbj
-        for (int i = 0; i < totalGroups; i++) {
-            g_of_sbj[i] = model.intVar("%g_of_f[" + i + "]", group_of_subject[i]);
-        }
-
-        // s_in_sbj
-        for (int i = 0; i < totalStudents; i++) {
-            for (int j = 0; j < totalSubjects; j++) {
-                s_in_sbj[i][j] = model.intVar(
-                        "%s_in_sbj[" + i + "][" + j + "]", student_in_subject[i][j]);
-            }
-        }
-
-        // sbj_min_cap, sbj_max_cap
-        for (int i=0; i<totalSubjects;i++){
-            sbj_min_cap[i] = model.intVar(subject_min_cap[i]);
-            sbj_max_cap[i] = model.intVar(subject_max_cap[i]);
-        }
+    public TT_Solver(TT_Model model){
+        this.model = model;
     }
 
-    public void solve(String timeLimit){
-        useStaticConstraints();
-        long startTime = System.currentTimeMillis();
+    public Solution solve(String timeLimit, int constraint_mode){
+        abideGroupCapacity();
+        assignStudentToGroupAcordingToSubject();
+        if(constraint_mode == 1) {
+            cancelNotPossibleTimeslotsPerStudent();
+        }
+        s_in_g_of_f_to_s_in_g();
+        s_in_g_to_s_in_g_of_f();
+        setStudentInSameTimeslotAsItsGroup();
+        studentPerTimeslot();
+        studentInJustOneGroupPerSubject();
+        setGroupInAcceptedTimeslot();
         model.getSolver().limitTime(timeLimit);
         model.getSolver().setSearch(activityBasedSearch(model.retrieveIntVars(true)));
-        Solution solution = model.getSolver().findSolution();
-
-
-        long stopTime = System.currentTimeMillis();
-        System.out.println("Elapsed time: " + (stopTime-startTime));
+        current_solution = model.getSolver().findSolution();
         model.getSolver().printStatistics();
-        if(solution == null){
+
+        if(current_solution == null){
             System.out.println("No Solution found");
         }
-        OutputWriter ow = new OutputWriter(solution,s_in_g,g_in_t,inputReader);
-        ow.writeInJSON("C:/Users/Tu/Desktop/tt_project/performancetest/tt_output.json");
+        return current_solution;
+    }
+
+    /* a) Wenn ein Student einem Fach zugeordnet ist, dann befindet er sich in genau einer der Gruppen
+   die diesem Fach zugeordnet sind.*/
+    public void assignStudentToGroupAcordingToSubject(){
+
+        for (int s = 0; s < model.get_total_students(); s++) {
+            for (int g = 0; g < model.get_total_groups(); g++) {
+                for (int f = 0; f < model.get_total_subjects(); f++) {
+                    IntVar[] abs = new IntVar[model.get_total_groups()];
+                    for (int i = 0; i < model.get_total_groups(); i++) {
+                        abs[i] = model.get_s_in_g_of_sbj()[s][i][f];
+                    }
+                    model.ifThenElse(model.arithm(model.get_s_in_sbj()[s][f], "=", 1),
+                            model.sum(abs, "=", 1),
+                            model.arithm(model.get_s_in_g_of_sbj()[s][g][f], "=", 0));
+                }
+            }
+        }
+
+    }
+
+    //b) Wenn Student sich in einer Gruppe befindet und diese Gruppe auch dem entsprechenden Fach zugeordnet ist,
+    //dann befindet sich der Student s in der Gruppe g, welcher dem Fach f zugeordnet ist. Ansonsten nicht!
+    //(Denn jede Gruppe ist nur einem Fach zugeordnet, deshalb kann der Student keiner Gruppe zugeordnet sein,
+    //die einem anderen Fach zugeordnet ist!
+    public void s_in_g_to_s_in_g_of_f(){
+        for (int s = 0; s < model.get_total_students(); s++) {
+            for (int g = 0; g < model.get_total_groups(); g++) {
+                for (int f = 0; f < model.get_total_subjects(); f++) {
+                    model.ifThenElse(model.and(model.arithm(model.get_s_in_g()[s][g], "=", 1),
+                            model.arithm(model.get_g_of_sbj()[g], "=", f)),
+                            model.arithm(model.get_s_in_g_of_sbj()[s][g][f], "=", 1),
+                            model.arithm(model.get_s_in_g_of_sbj()[s][g][f], "=", 0));
+                }
+
+            }
+        }
+    }
+
+    //c) Wenn sich ein Student in einer Gruppe befindet, die in einem Fachzugeordnet ist, dann befindet
+    // sie sich der Student auch in der Gruppe. (Beziehung zwischen s_ing_of_sbj und s_in_g festlegen,
+    // damit s_ing_of_sbj nur dann zutrifft, wenn auch s_in_g zutrifft und umgekehrt
+    public void s_in_g_of_f_to_s_in_g(){
+
+        for (int s = 0; s < model.get_total_students(); s++) {
+            for (int g = 0; g < model.get_total_groups(); g++) {
+                for (int f = 0; f < model.get_total_subjects(); f++) {
+                    model.ifThen(model.arithm(model.get_s_in_g_of_sbj()[s][g][f], "=", 1),
+                            model.arithm(model.get_s_in_g()[s][g], "=", 1));
+                }
+            }
+        }
+
+    }
+
+    //d) Ein Student darf nur in einer Gruppe je Fach sich befinden!
+    public void studentInJustOneGroupPerSubject(){
+
+
+        for (int s = 0; s < model.get_total_students(); s++) {
+            for (int f = 0; f < model.get_total_subjects(); f++) {
+                IntVar[] abs = new IntVar[model.get_total_groups()];
+                for (int i = 0; i < model.get_total_groups(); i++) {
+                    abs[i] = model.get_s_in_g_of_sbj()[s][i][f];
+                }
+                model.sum(abs, "<=", 1).post();
+            }
+        }
     }
 
 
-    private void useStaticConstraints(){
-        TT_Constraints.abideGroupCapacity(model,s_in_g,g_of_sbj,sbj_max_cap,sbj_min_cap,totalStudents,totalGroups,totalSubjects);
-        TT_Constraints.assignStudentToGroupAcordingToSubject(model,s_in_g_of_sbj,s_in_sbj,totalStudents,totalGroups,totalSubjects);
-        // TT_Constraints.cancelNotPossibleTimeslotsPerStudent(model, s_in_g,s_rej_t,g_in_t,totalStudents,totalGroups,totalTimeslots);
-        TT_Constraints.s_in_g_of_f_to_s_in_g(model,s_in_g_of_sbj,s_in_g,totalStudents,totalGroups,totalSubjects);
-        TT_Constraints.s_in_g_to_s_in_g_of_f(model,s_in_g_of_sbj,s_in_g,g_of_sbj,totalStudents,totalGroups,totalSubjects);
-        TT_Constraints.setStudentInSameTimeslotAsItsGroup(model,s_in_g_in_t,s_in_g,g_in_t,totalStudents,totalGroups,totalTimeslots);
-        TT_Constraints.studentPerTimeslot(model, s_in_g_in_t,totalStudents, totalGroups,totalTimeslots);
-        TT_Constraints.studentInJustOneGroupPerSubject(model,s_in_g_of_sbj,totalStudents,totalGroups,totalSubjects);
+    //e) gruppenkapazitäten je Fach einhalten!
+    public void abideGroupCapacity(){
+        for(int g=0; g<model.get_total_groups();g++){
+            IntVar[] abs = new IntVar[model.get_total_students()];
+            for (int i = 0; i < model.get_total_students(); i++) {
+                abs[i] = model.get_s_in_g()[i][g];
+            }
+            for(int t=0; t<model.get_total_timeslots();t++){
+                model.ifThen(model.arithm(model.get_g_in_t()[g],"=",t),
+                        model.sum(abs,"<=",model.get_t_max_cap()[t]));
+
+                model.ifThen(model.arithm(model.get_g_in_t()[g],"=",t),
+                        model.sum(abs,">=",model.get_t_min_cap()[t]));
+            }
+        }
+    }
+
+    //f) wenn s_in_g dann auch s_in_g_in_t unter maximal einem timeslot, ansonsten nicht.
+    public void setStudentInSameTimeslotAsItsGroup(){
+        for (int s = 0; s < model.get_total_students(); s++) {
+            for (int g = 0; g < model.get_total_groups(); g++) {
+                for (int t = 0; t < model.get_total_timeslots(); t++) {
+                    model.ifThenElse(model.and(model.arithm(model.get_s_in_g()[s][g], "=", 1),
+                            model.arithm(model.get_g_in_t()[g], "=", t)),
+                            model.arithm(model.get_s_in_g_in_t()[s][g][t], "=", 1),
+                            model.arithm(model.get_s_in_g_in_t()[s][g][t], "=", 0));
+                }
+            }
+        }
+    }
+
+    //Eine Gruppe darf nur in einen Zeitslot gesetzt werden, wenn das Fach zu dem es gehört, vom Zeitslot
+    // akzeptiert wird.
+
+    public void setGroupInAcceptedTimeslot(){
+        for(int f =0; f<model.get_total_subjects(); f++){
+            for(int t=0; t<model.get_total_timeslots(); t++){
+                for(int g=0; g<model.get_total_groups(); g++){
+                    model.ifThen(
+                            model.and(model.arithm(model.get_t_accepts_sbj()[t][f],"=",0),model.arithm(model.get_g_of_sbj()[g],"=",f)),
+                            model.arithm(model.get_g_in_t()[g],"!=",t));
+                }
+            }
+        }
+    }
+
+    //g) Ein Student darf sich in einem Timeslot nicht mehr als 1x aufhalten.
+
+    public void studentPerTimeslot(){
+
+        for(int s=0; s<model.get_total_students(); s++){
+            for(int t =0; t<model.get_total_timeslots(); t++){
+                IntVar[] abs = new IntVar[model.get_total_groups()];
+                for(int i =0; i<model.get_total_groups(); i++){
+                    abs[i] = model.get_s_in_g_in_t()[s][i][t];
+                }
+                model.sum(abs,"<=",1).post();
+            }
+        }
+
+
+    }
+
+    //h) wenn Student einen Timeslot als nicht möglich markeirt hat, befindet er sich in keiner Gruppe in diesem Timeslot
+    public void cancelNotPossibleTimeslotsPerStudent(){
+
+        for (int s = 0; s < model.get_total_students(); s++) {
+            for (int g = 0; g < model.get_total_groups(); g++) {
+                for (int t = 0; t < model.get_total_timeslots(); t++) {
+                    model.ifThen(model.and(model.arithm(model.get_s_rej_t()[s][t], "=", 1),
+                            model.arithm(model.get_g_in_t()[g], "=", t)),
+                            model.arithm(model.get_s_in_g()[s][g], "=", 0));
+                }
+            }
+        }
     }
 
 

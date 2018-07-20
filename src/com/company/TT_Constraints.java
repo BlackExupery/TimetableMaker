@@ -8,7 +8,6 @@ public class TT_Constraints {
      die diesem Fach zugeordnet sind.*/
     public static void assignStudentToGroupAcordingToSubject(Model model, IntVar[][][]s_in_g_of_sbj,
                                                              IntVar s_in_sbj[][], int totalStudents,
-
                                                              int totalGroups, int totalSubjects){
 
         for (int s = 0; s < totalStudents; s++) {
@@ -81,42 +80,30 @@ public class TT_Constraints {
                 model.sum(abs, "<=", 1).post();
             }
         }
-
-
     }
 
 
     //e) gruppenkapazitäten je Fach einhalten!
-    public static void abideGroupCapacity(Model model, IntVar[][]s_in_g, IntVar[] g_of_sbj, IntVar[]sbj_max_cap, IntVar[]sbj_min_cap,
-                                          int totalStudents, int totalGroups, int totalSubjects){
-
-
+    public static void abideGroupCapacity(Model model, IntVar[][]s_in_g, IntVar[] g_in_t, IntVar[]t_max_cap, IntVar[]t_min_cap,
+                                          int totalStudents, int totalGroups, int totalTimeslots){
         for(int g=0; g<totalGroups;g++){
             IntVar[] abs = new IntVar[totalStudents];
             for (int i = 0; i < totalStudents; i++) {
                 abs[i] = s_in_g[i][g];
             }
-            for(int s=0; s<totalStudents;s++){
-                for(int f=0; f<totalSubjects;f++){
+            for(int t=0; t<totalTimeslots;t++){
+                model.ifThen(model.arithm(g_in_t[g],"=",t),
+                        model.sum(abs,"<=",t_max_cap[t]));
 
-                    model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),
-                            model.arithm(g_of_sbj[g],"=",f)),
-                            model.sum(abs,"<=",sbj_max_cap[f]) );
-
-                    model.ifThen(model.and(model.arithm(s_in_g[s][g],"=",1),
-                            model.arithm(g_of_sbj[g],"=",f)),
-                            model.sum(abs,">=",sbj_min_cap[f]) );
+                model.ifThen(model.arithm(g_in_t[g],"=",t),
+                        model.sum(abs,">=",t_min_cap[t]));
                 }
-            }
         }
-
     }
 
     //f) wenn s_in_g dann auch s_in_g_in_t unter maximal einem timeslot, ansonsten nicht.
     public static void setStudentInSameTimeslotAsItsGroup(Model model, IntVar[][][]s_in_g_in_t, IntVar[][]s_in_g, IntVar[] g_in_t,
                                                           int totalStudents, int totalGroups, int totalTimeslots){
-
-
         for (int s = 0; s < totalStudents; s++) {
             for (int g = 0; g < totalGroups; g++) {
                 for (int t = 0; t < totalTimeslots; t++) {
@@ -127,8 +114,22 @@ public class TT_Constraints {
                 }
             }
         }
+    }
 
+    //Eine Gruppe darf nur in einen Zeitslot gesetzt werden, wenn das Fach zu dem es gehört, vom Zeitslot
+    // akzeptiert wird.
 
+    public static void setGroupInAcceptedTimeslot(Model model, IntVar[][]t_accepts_sbj, IntVar[]g_of_sbj, IntVar[] g_in_t,
+                                                  int totalSubjects, int totalTimeslots, int totalGroups){
+        for(int f =0; f<totalSubjects; f++){
+            for(int t=0; t<totalTimeslots; t++){
+                for(int g=0; g<totalGroups; g++){
+                    model.ifThen(
+                            model.and(model.arithm(t_accepts_sbj[t][f],"=",0),model.arithm(g_of_sbj[g],"=",f)),
+                            model.arithm(g_in_t[g],"!=",t));
+                }
+            }
+        }
     }
 
     //g) Ein Student darf sich in einem Timeslot nicht mehr als 1x aufhalten.
@@ -161,8 +162,6 @@ public class TT_Constraints {
                 }
             }
         }
-
-
     }
 
 

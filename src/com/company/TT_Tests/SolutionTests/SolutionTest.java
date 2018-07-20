@@ -2,12 +2,11 @@ package com.company.TT_Tests.SolutionTests;
 
 import com.company.InputReader;
 import com.company.OutputReader;
-
 import java.util.List;
 import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
-import java.nio.file.Paths;
+
 
 /*
 * Anmerkung: -lass den TimeTableValidator so wie er ist und integriere ihn in JUnittests.
@@ -24,7 +23,7 @@ public class SolutionTest {
     private OutputReader outputdata;
    // private static String input = Paths.get(".").toAbsolutePath().normalize().toString()+ "/src/com/company/TT_Tests/SolutionTests/tt_input.json";
     //private static String output = Paths.get(".").toAbsolutePath().normalize().toString()+ "/src/com/company/TT_Tests/SolutionTests/tt_output.json";
-    private static String input = "C:/Users/Tu/Desktop/tt_project/performancetest/tt_testinput.json";
+    private static String input = "C:/Users/Tu/Desktop/tt_project/performancetest/tt_newinput.json";
     private static String output = "C:/Users/Tu/Desktop/tt_project/performancetest/tt_output.json";
 
     public void initializeIOReader(String inputPath, String outputPath){
@@ -35,10 +34,9 @@ public class SolutionTest {
    }
 
     public boolean check_s_has_f_condition(){
-
-        Map<Long,List<String>> s_has_f = inputdata.get_map_s_has_f();
-        Map<Long,List<Long>> s_in_g = outputdata.get_map_s_in_g();
-        Map<Long,String> g_of_sbj= outputdata.get_map_g_of_sbj();
+        Map<Long,List<String>> s_has_f = inputdata.get_s_in_sbj();
+        Map<Long,List<Long>> s_in_g = outputdata.get_s_in_g();
+        Map<Long,String> g_of_sbj= outputdata.get_g_of_sbj();
 
         //gehe jeden studenten s durch
         for(Long s : s_has_f.keySet()){
@@ -74,8 +72,8 @@ public class SolutionTest {
 
     // ein Student darf sich nur in einer Gruppe je Zeitslot befinden.
     public boolean check_unique_studentassignment_per_timeslot(){
-        Map<Long,List<Long>> s_in_g = outputdata.get_map_s_in_g();
-        Map<Long,String> g_in_t = outputdata.get_map_g_in_t();
+        Map<Long,List<Long>> s_in_g = outputdata.get_s_in_g();
+        Map<Long,String> g_in_t = outputdata.get_g_in_t();
 
         //gehe jeden Studenten durch
         for(Long s : s_in_g.keySet()){
@@ -101,9 +99,9 @@ public class SolutionTest {
 
     public boolean check_s_rej_t_condition(){
 
-        Map<Long,List<String>> s_rej_t = inputdata.get_map_s_rejects_t();
-        Map<Long,List<Long>> s_in_g = outputdata.get_map_s_in_g();
-        Map<Long,String> g_in_t= outputdata.get_map_g_in_t();
+        Map<Long,List<String>> s_rej_t = inputdata.get_s_rejects_t();
+        Map<Long,List<Long>> s_in_g = outputdata.get_s_in_g();
+        Map<Long,String> g_in_t= outputdata.get_g_in_t();
 
         //gehe jeden studenten s durch
         for(Long s : s_rej_t.keySet()){
@@ -135,14 +133,13 @@ public class SolutionTest {
     }
 
     public boolean checkGroupCapacityCondition(){
-        Map<String,Integer> min_cap = inputdata.get_map_min_g_capacity();
-        Map<String,Integer> max_cap = inputdata.get_map_max_g_capacity();
-        Map<Long,String> g_of_sbj = outputdata.get_map_g_of_sbj();
-        Map<Long,List<Long>> s_in_g= outputdata.get_map_s_in_g();
-
+        Map<String,Integer> min_cap = inputdata.get_min_t_capacity();
+        Map<String,Integer> max_cap = inputdata.get_max_t_capacity();
+        Map<Long,String> g_in_t = outputdata.get_g_in_t();
+        Map<Long,List<Long>> s_in_g= outputdata.get_s_in_g();
 
         // gehe alle gruppen durch
-        for(Long g : g_of_sbj.keySet()) {
+        for(Long g : g_in_t.keySet()) {
 
             int counter = 0;
             //gehe alle studenten durch
@@ -153,28 +150,38 @@ public class SolutionTest {
                 }
             }
 
-            if(counter > max_cap.get(g_of_sbj.get(g))){
+            if(counter > max_cap.get(g_in_t.get(g))){
                 System.out.println("Gruppe: "+g+" hat zu viele Studenten");
                 return false;
             }
 
-            if(counter < min_cap.get(g_of_sbj.get(g))){
+            if(counter < min_cap.get(g_in_t.get(g))){
                 return false;
             }
         }
+        return true;
+    }
 
-
+    public boolean checkTimeslotAcceptsSubject(){
+        Map<String, List<String>> t_accepts_sbj = inputdata.get_t_accepts_sbj();
+        Map<Long, String> group_of_sbj = inputdata.get_g_of_sbj();
+        Map<Long, String> g_in_t = outputdata.get_g_in_t();
+        for(Long g : g_in_t.keySet()){
+            if(!t_accepts_sbj.get(g_in_t.get(g)).contains(group_of_sbj.get(g))){
+                return false;
+            }
+        }
         return true;
     }
 
     @Test
     public void checkAllConstraints(){
        initializeIOReader(input,output);
-       checkGroupCapacityCondition();
        Assert.assertTrue(check_s_has_f_condition());
        Assert.assertTrue(check_s_rej_t_condition());
        Assert.assertTrue(checkGroupCapacityCondition());
        Assert.assertTrue(check_unique_studentassignment_per_timeslot());
+       Assert.assertTrue(checkTimeslotAcceptsSubject());
     }
 
 

@@ -14,12 +14,15 @@ import java.util.Map;
 
 public class OutputReader {
 
-    Map<Long,List<Long>> s_in_g = new HashMap<Long,List<Long>>();
-    Map<Long,String> g_of_sbj = new HashMap<Long,String>();
-    Map<Long,String> g_in_t = new HashMap<Long,String>();
+    Map<Long,List<Long>> s_in_g;
+    Map<Long,String> g_of_sbj;
+    Map<Long,String> g_in_t;
 
 
     public void readFile(String path){
+        this.s_in_g = new HashMap<Long,List<Long>>();
+        this.g_of_sbj = new HashMap<Long,String>();
+        this.g_in_t = new HashMap<Long,String>();
         JSONParser parser = new JSONParser();
         try {
             Object obj = null;
@@ -44,15 +47,15 @@ public class OutputReader {
 
     }
 
-    public Map<Long,List<Long>> get_map_s_in_g(){
+    public Map<Long,List<Long>> get_s_in_g(){
         return this.s_in_g;
     }
 
-    public Map<Long,String> get_map_g_of_sbj(){
+    public Map<Long,String> get_g_of_sbj(){
         return this.g_of_sbj;
     }
 
-    public Map<Long, String> get_map_g_in_t() {
+    public Map<Long, String> get_g_in_t() {
         return g_in_t;
     }
 
